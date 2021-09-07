@@ -1,0 +1,5 @@
+# Progress per assignment
+## Lab 1
+Create an sketelon application that:
+- [ ] Shows a new window (JFrame) when launched
+- [ ] Presents a MenuBar
