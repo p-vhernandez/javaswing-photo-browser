@@ -1,7 +1,7 @@
 # Progress per assignment
 ## Lab 1
 Create an sketelon application that:
-- [ ] Shows a new window (JFrame) when launched
+- [x] Shows a new window (JFrame) when launched
 - [ ] Presents a MenuBar*
 - [ ] Shows an empty space as the main portion of the window (for now)
 - [ ] Shows a JLabel at the bottom of the window to act as a status bar
