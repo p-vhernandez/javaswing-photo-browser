@@ -1,3 +1,5 @@
+import utils.Toast;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -59,20 +61,8 @@ public class Gallery {
     }
 
     private void setUpAppMenu() {
-        fileMenu.add(iImport);
-        fileMenu.add(iDelete);
-        fileMenu.add(iQuit);
-        fileMenu.setBorder(new EmptyBorder(5, 5, 5, 5));
-        //fileMenu.setMinimumSize(new Dimension(150, 0));
-
-        viewMenu.add(iViewer);
-        viewMenu.add(iBrowser);
-        viewMenu.setBorder(new EmptyBorder(5, 5, 5, 5));
-        //viewMenu.setMinimumSize(new Dimension(150, 0));
-
-        viewButtons.add(iViewer);
-        viewButtons.add(iBrowser);
-        setUpCheckMenuItemsListeners();
+        setFileMenu();
+        setViewMenu();
 
         mainMenu.add(fileMenu);
         mainMenu.add(viewMenu);
@@ -81,7 +71,42 @@ public class Gallery {
         mainFrame.setJMenuBar(menuBar);
     }
 
-    private void setUpCheckMenuItemsListeners() {
+    private void setFileMenu() {
+        fileMenu.add(iImport);
+        fileMenu.add(iDelete);
+        fileMenu.add(iQuit);
+        fileMenu.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setUpMenuItemsListeners();
+    }
+
+    private void setViewMenu() {
+        viewMenu.add(iViewer);
+        viewMenu.add(iBrowser);
+        viewMenu.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+        viewButtons.add(iViewer);
+        viewButtons.add(iBrowser);
+        setUpRadioButtonsListeners();
+    }
+
+    private void setUpMenuItemsListeners() {
+        iImport.addActionListener(listener -> {
+            // TODO: Open FileChooser
+            Toast.showToast(mainPanel, "iImport");
+        });
+
+        iDelete.addActionListener(listener -> {
+            // TODO: Delete a picture
+            Toast.showToast(mainPanel, "iDelete");
+        });
+
+        iQuit.addActionListener(listener -> {
+            // Close the app
+            mainFrame.dispose();
+        });
+    }
+
+    private void setUpRadioButtonsListeners() {
         // In this function will be implemented the way
         // the app changes from one mode to another
         iViewer.addActionListener(listener -> {
