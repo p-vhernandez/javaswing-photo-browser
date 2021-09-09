@@ -15,10 +15,16 @@ public class Gallery {
     private final JMenu viewMenu;
 
     private final JMenuItem iDelete, iImport, iQuit;
-    private final JCheckBoxMenuItem iViewer, iBrowser;
+    private final JRadioButtonMenuItem iViewer, iBrowser;
+    private final ButtonGroup viewButtons;
+
+    private static final String APP_TITLE = "Welcome to your PhotoBrowser";
+    private static final String BASE_STATUS = "This is a dummy text as a status";
+    private static final String MODE_VIEWER = ". You are on viewer mode.";
+    private static final String MODE_BROWSER = ". You are on browser mode.";
 
     public Gallery() {
-        mainFrame = new JFrame("Welcome to your PhotoBrowser");
+        mainFrame = new JFrame(APP_TITLE);
         mainFrame.setVisible(true);
 
         menuBar = new JMenuBar();
@@ -33,8 +39,9 @@ public class Gallery {
         iImport = new JMenuItem("Import");
         iDelete = new JMenuItem("Delete");
         iQuit = new JMenuItem("Quit");
-        iViewer = new JCheckBoxMenuItem("Viewer", true);
-        iBrowser = new JCheckBoxMenuItem("Browser", false);
+        iViewer = new JRadioButtonMenuItem("Viewer", true);
+        iBrowser = new JRadioButtonMenuItem("Browser", false);
+        viewButtons = new ButtonGroup();
 
         setUpUI();
 
@@ -62,8 +69,9 @@ public class Gallery {
         viewMenu.add(iBrowser);
         viewMenu.setBorder(new EmptyBorder(5, 5, 5, 5));
         //viewMenu.setMinimumSize(new Dimension(150, 0));
-        iViewer.setState(true);
-        iBrowser.setState(false);
+
+        viewButtons.add(iViewer);
+        viewButtons.add(iBrowser);
         setUpCheckMenuItemsListeners();
 
         mainMenu.add(fileMenu);
@@ -77,17 +85,13 @@ public class Gallery {
         // In this function will be implemented the way
         // the app changes from one mode to another
         iViewer.addActionListener(listener -> {
-            if (!iViewer.getState()) {
-                iBrowser.setState(false);
-                iViewer.setState(true);
+            if (iViewer.isSelected()) {
+                statusBar.setText(BASE_STATUS + MODE_VIEWER);
             }
         });
 
         iBrowser.addActionListener(listener -> {
-            if (!iBrowser.getState()) {
-                iViewer.setState(false);
-                iBrowser.setState(true);
-            }
+            statusBar.setText(BASE_STATUS + MODE_BROWSER);
         });
     }
 
@@ -99,7 +103,7 @@ public class Gallery {
     }
 
     private void setUpStatusBar() {
-        statusBar.setText("This is a dummy text as a status");
+        statusBar.setText(BASE_STATUS + MODE_VIEWER);
         statusBar.setBorder(new EmptyBorder(5, 5, 5, 5));
         mainFrame.add(statusBar, BorderLayout.SOUTH);
     }
