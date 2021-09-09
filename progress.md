@@ -2,7 +2,7 @@
 ## Lab 1
 Create an sketelon application that:
 - [x] Shows a new window (JFrame) when launched
-- [ ] Presents a MenuBar*
+- [x] Presents a MenuBar*
 - [x] Shows an empty space as the main portion of the window (for now)
 - [x] Shows a JLabel at the bottom of the window to act as a status bar
 - [ ] Shows a toolbar at the left or top of the window. Include a JToggleButton to choose between different categories of photos (e.g. “People,” “Places,” “School”, etc.)
