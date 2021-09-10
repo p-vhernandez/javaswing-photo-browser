@@ -1,4 +1,5 @@
 import utils.Toast;
+import utils.Utils;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -154,7 +155,7 @@ public class Gallery {
     private void setToggleButton(JToggleButton btnCategory, String category) {
         btnCategory.setText(category + UNSELECTED);
         btnCategory.setBorder(new EmptyBorder(8, 8, 8, 8));
-        // btnCategory.setMinimumSize(new Dimension(300, 0));
+        // btnCategory.setFont(Utils.CustomFont("resources/font/urbanist-semibold.ttf"));
         btnCategory.addActionListener(listener -> {
             if (btnCategory.isSelected()) {
                 btnCategory.setText(category + SELECTED);
