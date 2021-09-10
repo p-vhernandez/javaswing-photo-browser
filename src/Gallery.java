@@ -13,21 +13,24 @@ public class Gallery {
     private final JMenuBar menuBar;
     private final JToolBar toolBar;
 
-    private final JMenu mainMenu;
     private final JMenu fileMenu;
     private final JMenu viewMenu;
 
     private final JMenuItem iDelete, iImport, iQuit;
     private final JRadioButtonMenuItem iViewer, iBrowser;
     private final ButtonGroup viewButtons;
-    private final JToggleButton btnCategories;
+    private final JToggleButton btnCategoryPeople;
+    private final JToggleButton btnCategoryPlaces;
+    private final JToggleButton btnCategoryPets;
 
     private static final String APP_TITLE = "Welcome to your PhotoBrowser";
     private static final String BASE_STATUS = "This is a dummy text as a status";
     private static final String MODE_VIEWER = ". You are on viewer mode.";
     private static final String MODE_BROWSER = ". You are on browser mode.";
-    private static final String CATEGORY_PORTRAITS = "Portraits";
-    private static final String CATEGORY_LANDSCAPE = "Landscape";
+    private static final String CATEGORY_PEOPLE = "People";
+    private static final String CATEGORY_PLACES = "Places";
+    private static final String CATEGORY_PETS = "Pets";
+    private static final String SELECTED = "selected";
 
     public Gallery() {
         mainFrame = new JFrame(APP_TITLE);
@@ -36,7 +39,6 @@ public class Gallery {
         menuBar = new JMenuBar();
         toolBar = new JToolBar();
 
-        mainMenu = new JMenu("Menu");
         fileMenu = new JMenu("File");
         viewMenu = new JMenu("View");
 
@@ -49,7 +51,9 @@ public class Gallery {
         iViewer = new JRadioButtonMenuItem("Viewer", true);
         iBrowser = new JRadioButtonMenuItem("Browser", false);
         viewButtons = new ButtonGroup();
-        btnCategories = new JToggleButton();
+        btnCategoryPeople = new JToggleButton();
+        btnCategoryPlaces = new JToggleButton();
+        btnCategoryPets = new JToggleButton();
 
         setUpUI();
 
@@ -71,10 +75,8 @@ public class Gallery {
         setFileMenu();
         setViewMenu();
 
-        mainMenu.add(fileMenu);
-        mainMenu.add(viewMenu);
-
-        menuBar.add(mainMenu);
+        menuBar.add(fileMenu);
+        menuBar.add(viewMenu);
         mainFrame.setJMenuBar(menuBar);
     }
 
@@ -126,29 +128,43 @@ public class Gallery {
             }
         });
 
-        iBrowser.addActionListener(listener -> {
-            statusBar.setText(BASE_STATUS + MODE_BROWSER);
-        });
+        iBrowser.addActionListener(listener -> statusBar.setText(BASE_STATUS + MODE_BROWSER));
     }
 
     private void setUpToolBar() {
-        btnCategories.setText(CATEGORY_PORTRAITS);
-        btnCategories.addActionListener(listener -> {
-            if (btnCategories.isSelected()) {
-                btnCategories.setText(CATEGORY_LANDSCAPE);
+        setToggleButtonsListeners();
+
+        toolBar.setFloatable(true);
+        toolBar.setOrientation(SwingConstants.VERTICAL);
+        toolBar.add(btnCategoryPeople);
+        toolBar.add(btnCategoryPlaces);
+        toolBar.add(btnCategoryPets);
+        mainFrame.add(toolBar, BorderLayout.WEST);
+    }
+
+    private void setToggleButtonsListeners() {
+        setToggleButton(btnCategoryPeople, CATEGORY_PEOPLE);
+        setToggleButton(btnCategoryPlaces, CATEGORY_PLACES);
+        setToggleButton(btnCategoryPets, CATEGORY_PETS);
+    }
+
+    private void setToggleButton(JToggleButton btnCategory, String category) {
+        btnCategory.setText(category);
+        btnCategory.setBorder(new EmptyBorder(8, 8, 8, 8));
+        // btnCategory.setMinimumSize(new Dimension(300, 0));
+        btnCategory.addActionListener(listener -> {
+            if (btnCategory.isSelected()) {
+                btnCategory.setText(category + " " + SELECTED);
             } else {
-                btnCategories.setText(CATEGORY_PORTRAITS);
+                btnCategory.setText(category);
             }
         });
-
-        toolBar.add(btnCategories);
-        mainFrame.add(toolBar, BorderLayout.NORTH);
     }
 
     private void setUpMainSpace() {
         // Background just to check if it's visible
         // Keep it empty as assignment states
-        mainPanel.setBackground(new Color(168, 237, 206));
+        mainPanel.setBackground(new Color(148, 148, 148));
         mainFrame.add(mainPanel, BorderLayout.CENTER);
     }
 
