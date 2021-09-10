@@ -8,7 +8,6 @@ public class Gallery {
 
     private final JFrame mainFrame;
     private final JPanel mainPanel;
-    // private final JPanel upperPanel;
     private final JLabel statusBar;
 
     private final JMenuBar menuBar;
@@ -42,7 +41,6 @@ public class Gallery {
         viewMenu = new JMenu("View");
 
         mainPanel = new JPanel();
-        // upperPanel = new JPanel();
         statusBar = new JLabel();
 
         iImport = new JMenuItem("Import");
@@ -68,14 +66,6 @@ public class Gallery {
         setUpMainSpace();
         setUpStatusBar();
     }
-
-    /* private void setUpUpperPanel() {
-        setUpAppMenu();
-        setUpToolBar();
-
-        upperPanel.add(mainMenu);
-        upperPanel.add(toolBar);
-    } */
 
     private void setUpAppMenu() {
         setFileMenu();
