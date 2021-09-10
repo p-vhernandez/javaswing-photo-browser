@@ -5,7 +5,7 @@ Create an sketelon application that:
 - [x] Presents a MenuBar*
 - [x] Shows an empty space as the main portion of the window (for now)
 - [x] Shows a JLabel at the bottom of the window to act as a status bar
-- [ ] Shows a toolbar at the left or top of the window. Include a JToggleButton to choose between different categories of photos (e.g. “People,” “Places,” “School”, etc.)
+- [x] Shows a toolbar at the left or top of the window. Include a JToggleButton to choose between different categories of photos (e.g. “People,” “Places,” “School”, etc.)
 - [x] Can be resized using the actual window
 
 The MenuBar should show the following:
