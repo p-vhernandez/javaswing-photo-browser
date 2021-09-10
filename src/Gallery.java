@@ -8,9 +8,11 @@ public class Gallery {
 
     private final JFrame mainFrame;
     private final JPanel mainPanel;
+    // private final JPanel upperPanel;
     private final JLabel statusBar;
 
     private final JMenuBar menuBar;
+    private final JToolBar toolBar;
 
     private final JMenu mainMenu;
     private final JMenu fileMenu;
@@ -19,23 +21,28 @@ public class Gallery {
     private final JMenuItem iDelete, iImport, iQuit;
     private final JRadioButtonMenuItem iViewer, iBrowser;
     private final ButtonGroup viewButtons;
+    private final JToggleButton btnCategories;
 
     private static final String APP_TITLE = "Welcome to your PhotoBrowser";
     private static final String BASE_STATUS = "This is a dummy text as a status";
     private static final String MODE_VIEWER = ". You are on viewer mode.";
     private static final String MODE_BROWSER = ". You are on browser mode.";
+    private static final String CATEGORY_PORTRAITS = "Portraits";
+    private static final String CATEGORY_LANDSCAPE = "Landscape";
 
     public Gallery() {
         mainFrame = new JFrame(APP_TITLE);
         mainFrame.setVisible(true);
 
         menuBar = new JMenuBar();
+        toolBar = new JToolBar();
 
         mainMenu = new JMenu("Menu");
         fileMenu = new JMenu("File");
         viewMenu = new JMenu("View");
 
         mainPanel = new JPanel();
+        // upperPanel = new JPanel();
         statusBar = new JLabel();
 
         iImport = new JMenuItem("Import");
@@ -44,6 +51,7 @@ public class Gallery {
         iViewer = new JRadioButtonMenuItem("Viewer", true);
         iBrowser = new JRadioButtonMenuItem("Browser", false);
         viewButtons = new ButtonGroup();
+        btnCategories = new JToggleButton();
 
         setUpUI();
 
@@ -56,9 +64,18 @@ public class Gallery {
         // mainFrame.setMinimumSize(new Dimension(100, 100));
 
         setUpAppMenu();
+        setUpToolBar();
         setUpMainSpace();
         setUpStatusBar();
     }
+
+    /* private void setUpUpperPanel() {
+        setUpAppMenu();
+        setUpToolBar();
+
+        upperPanel.add(mainMenu);
+        upperPanel.add(toolBar);
+    } */
 
     private void setUpAppMenu() {
         setFileMenu();
@@ -118,6 +135,20 @@ public class Gallery {
         iBrowser.addActionListener(listener -> {
             statusBar.setText(BASE_STATUS + MODE_BROWSER);
         });
+    }
+
+    private void setUpToolBar() {
+        btnCategories.setText(CATEGORY_PORTRAITS);
+        btnCategories.addActionListener(listener -> {
+            if (btnCategories.isSelected()) {
+                btnCategories.setText(CATEGORY_LANDSCAPE);
+            } else {
+                btnCategories.setText(CATEGORY_PORTRAITS);
+            }
+        });
+
+        toolBar.add(btnCategories);
+        mainFrame.add(toolBar, BorderLayout.NORTH);
     }
 
     private void setUpMainSpace() {
