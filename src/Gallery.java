@@ -86,6 +86,10 @@ public class Gallery {
         setUpMenuItemsListeners();
     }
 
+    /**
+     * ButtonGroup way of working gotten from
+     * https://www.javascan.com/993/java-jradiobuttonmenuitem-example
+     */
     private void setViewMenu() {
         viewMenu.add(iViewer);
         viewMenu.add(iBrowser);
