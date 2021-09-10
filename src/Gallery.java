@@ -30,7 +30,8 @@ public class Gallery {
     private static final String CATEGORY_PEOPLE = "People";
     private static final String CATEGORY_PLACES = "Places";
     private static final String CATEGORY_PETS = "Pets";
-    private static final String SELECTED = "selected";
+    private static final String SELECTED = ": ON";
+    private static final String UNSELECTED = ": OFF";
 
     public Gallery() {
         mainFrame = new JFrame(APP_TITLE);
@@ -62,6 +63,8 @@ public class Gallery {
     }
 
     private void setUpUI() {
+        Image appIcon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("resources/img/picture.png"));
+        mainFrame.setIconImage(appIcon);
         mainFrame.setPreferredSize(new Dimension(600, 500));
         // mainFrame.setMinimumSize(new Dimension(100, 100));
 
@@ -149,14 +152,14 @@ public class Gallery {
     }
 
     private void setToggleButton(JToggleButton btnCategory, String category) {
-        btnCategory.setText(category);
+        btnCategory.setText(category + UNSELECTED);
         btnCategory.setBorder(new EmptyBorder(8, 8, 8, 8));
         // btnCategory.setMinimumSize(new Dimension(300, 0));
         btnCategory.addActionListener(listener -> {
             if (btnCategory.isSelected()) {
-                btnCategory.setText(category + " " + SELECTED);
+                btnCategory.setText(category + SELECTED);
             } else {
-                btnCategory.setText(category);
+                btnCategory.setText(category + UNSELECTED);
             }
         });
     }
