@@ -1,54 +1,69 @@
 package utils;
 
 import java.awt.*;
-import java.io.IOException;
-import java.util.Objects;
-
-import com.sun.tools.javac.Main;
 
 public class Utils {
 
-    /**
-     * TODO: these methods are not working. An error occurs.
-     * Code retrieved from the internet:
-     * https://stackoverflow.com/q/65449685/9772035
-     */
-    public static Font CustomFont(String path) {
-        Font customFont = loadFont(path);
-        System.out.println(customFont == null);
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        ge.registerFont(customFont);
+    private static final String APP_NAME = "Photo browser";
 
-        return customFont;
+    private static final String BASE_STATUS = "This is a dummy text as a status";
+    private static final String MODE_VIEWER = ". You are on viewer mode.";
+    private static final String MODE_BROWSER = ". You are on browser mode.";
+    private static final String SELECTED = ": ON";
+    private static final String UNSELECTED = ": OFF";
+    private static final String[] CATEGORIES = {
+            "People",
+            "Places",
+            "Pets"
+    };
 
+    private static final int WINDOW_WIDTH = 800;
+    private static final int WINDOW_HEIGHT = 700;
+    private static final int TOOLBAR_WIDTH = 120;
+
+    public static String getAppName() {
+        return APP_NAME;
     }
 
-    public static Font loadFont(String path) {
-        try {
-            Font myFont = Font.createFont(Font.TRUETYPE_FONT,
-                    Utils.class.getResourceAsStream(path));
-
-            return myFont.deriveFont(Font.PLAIN);
-        } catch (FontFormatException | IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-
-        return null;
+    public static String getBaseStatus() {
+        return BASE_STATUS;
     }
 
-    public static Font loadFont(String path, float size) {
-        try {
-            Font myFont = Font.createFont(Font.TRUETYPE_FONT,
-                    Utils.class.getResourceAsStream(path));
+    public static String getModeViewer() {
+        return MODE_VIEWER;
+    }
 
-            return myFont.deriveFont(Font.PLAIN, size);
-        } catch (FontFormatException | IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
+    public static String getModeBrowser() {
+        return MODE_BROWSER;
+    }
 
-        return null;
+    public static String[] getCategories() {
+        return CATEGORIES;
+    }
+
+    public static String getSelected() {
+        return SELECTED;
+    }
+
+    public static String getUnselected() {
+        return UNSELECTED;
+    }
+
+    public static int getWindowWidth() {
+        return WINDOW_WIDTH;
+    }
+
+    public static int getWindowHeight() {
+        return WINDOW_HEIGHT;
+    }
+
+    public static int getToolbarWidth() {
+        return TOOLBAR_WIDTH;
+    }
+
+    public static Image generateImage(Object object, String directory) {
+        return Toolkit.getDefaultToolkit()
+                .getImage(object.getClass().getResource(directory));
     }
 
 }
