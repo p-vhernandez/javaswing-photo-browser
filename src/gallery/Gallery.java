@@ -1,3 +1,5 @@
+package gallery;
+
 import utils.Utils;
 
 import javax.swing.*;
@@ -25,6 +27,10 @@ public class Gallery extends JFrame{
 
     private void setUpUI() {
         this.view.initializeUI();
+    }
+
+    public void closeApp() {
+        dispose();
     }
 
 }

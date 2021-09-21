@@ -1,3 +1,7 @@
+package main;
+
+import gallery.Gallery;
+
 public class Main {
 
     public static void main(String[] args) {

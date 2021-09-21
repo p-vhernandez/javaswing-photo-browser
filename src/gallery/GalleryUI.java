@@ -1,4 +1,6 @@
-import components.toolbar.GalleryToolbar;
+package gallery;
+
+import components.photo.PhotoComponent;
 import utils.Toast;
 import utils.Utils;
 
@@ -11,8 +13,9 @@ public class GalleryUI {
     private final Gallery gallery;
 
     private final JPanel mainPanel = new JPanel();
-    private final JMenuBar menuBar = new JMenuBar();
     private final JLabel statusBar = new JLabel();
+    private final JMenuBar menuBar = new JMenuBar();
+    private final JToolBar toolBar = new JToolBar();
 
     private final JMenu
             fileMenu = new JMenu("File"),
@@ -26,6 +29,11 @@ public class GalleryUI {
     private final JRadioButtonMenuItem
             iViewer = new JRadioButtonMenuItem("Viewer", true),
             iBrowser = new JRadioButtonMenuItem("Browser", false);
+
+    private final JToggleButton
+            btnCategoryPeople = new JToggleButton(),
+            btnCategoryPlaces = new JToggleButton(),
+            btnCategoryPets = new JToggleButton();
 
     public GalleryUI(Gallery gallery) {
         this.gallery = gallery;
@@ -109,19 +117,60 @@ public class GalleryUI {
     }
 
     private void setUpToolBar() {
-        GalleryToolbar galleryToolbar = new GalleryToolbar();
-        gallery.add(galleryToolbar, BorderLayout.WEST);
+        setToggleButtonsListeners();
+
+        toolBar.setFloatable(true);
+        toolBar.setOrientation(SwingConstants.VERTICAL);
+        toolBar.add(btnCategoryPeople);
+        toolBar.add(btnCategoryPlaces);
+        toolBar.add(btnCategoryPets);
+
+        gallery.add(toolBar, BorderLayout.WEST);
+    }
+
+    private void setToggleButtonsListeners() {
+        setToggleButton(btnCategoryPeople, Utils.getCategories()[0]);
+        setToggleButton(btnCategoryPlaces, Utils.getCategories()[1]);
+        setToggleButton(btnCategoryPets, Utils.getCategories()[2]);
+    }
+
+    private void setToggleButton(JToggleButton btnCategory, String category) {
+        btnCategory.setText(category + Utils.getUnselected());
+        btnCategory.setBorder(new EmptyBorder(8, 8, 8, 8));
+
+        btnCategory.addActionListener(listener -> {
+            if (btnCategory.isSelected()) {
+                btnCategory.setText(category + Utils.getSelected());
+            } else {
+                btnCategory.setText(category + Utils.getUnselected());
+            }
+        });
     }
 
     // Background just to check if it's visible
     // Keep it empty as assignment states
     private void setUpMainSpace() {
+        mainPanel.setLayout(new BorderLayout());
         mainPanel.setBackground(new Color(148, 148, 148));
         gallery.add(mainPanel, BorderLayout.CENTER);
+
+        setUpPhotoComponent();
+    }
+
+    private void setUpPhotoComponent() {
+        PhotoComponent photoComponent = new PhotoComponent();
+        JScrollPane scrollPane = new JScrollPane(photoComponent);
+        scrollPane.setMaximumSize(new Dimension(Utils.getPhotoComponentWidth(),
+                Utils.getPhotoComponentHeight()));
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
     }
 
     private void setUpStatusBar() {
         statusBar.setText(Utils.getBaseStatus() + Utils.getModeViewer());
+        statusBar.setBorder(new EmptyBorder(5, 5, 5, 5));
         gallery.add(statusBar, BorderLayout.SOUTH);
     }
 

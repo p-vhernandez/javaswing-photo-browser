@@ -11,6 +11,7 @@ public class Utils {
     private static final String MODE_BROWSER = ". You are on browser mode.";
     private static final String SELECTED = ": ON";
     private static final String UNSELECTED = ": OFF";
+
     private static final String[] CATEGORIES = {
             "People",
             "Places",
@@ -20,6 +21,7 @@ public class Utils {
     private static final int WINDOW_WIDTH = 800;
     private static final int WINDOW_HEIGHT = 700;
     private static final int TOOLBAR_WIDTH = 120;
+    private static final int PHOTO_COMPONENT_HEIGHT = 300;
 
     public static String getAppName() {
         return APP_NAME;
@@ -59,6 +61,14 @@ public class Utils {
 
     public static int getToolbarWidth() {
         return TOOLBAR_WIDTH;
+    }
+
+    public static int getPhotoComponentWidth() {
+        return WINDOW_WIDTH - TOOLBAR_WIDTH;
+    }
+
+    public static int getPhotoComponentHeight() {
+        return PHOTO_COMPONENT_HEIGHT;
     }
 
     public static Image generateImage(Object object, String directory) {

@@ -1,3 +1,5 @@
+package gallery;
+
 public class GalleryModel {
 
     private final Gallery gallery;
