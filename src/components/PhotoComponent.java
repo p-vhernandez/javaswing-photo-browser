@@ -4,6 +4,8 @@ import utils.Utils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PhotoComponent extends JComponent {
 
@@ -36,6 +38,10 @@ public class PhotoComponent extends JComponent {
 
     public int getImageHeight() {
         return this.view.getImageHeight();
+    }
+
+    public ArrayList<Point> getDrawnPoints() {
+        return this.model.getDrawnPoints();
     }
 
     public void paintComponent(Graphics g) {

@@ -18,8 +18,8 @@ public class Utils {
             "Pets"
     };
 
-    private static final int WINDOW_WIDTH = 800;
-    private static final int WINDOW_HEIGHT = 700;
+    private static final int WINDOW_WIDTH = 950;
+    private static final int WINDOW_HEIGHT = 800;
     private static final int TOOLBAR_WIDTH = 120;
     private static final int PHOTO_COMPONENT_BORDER = 10;
 
