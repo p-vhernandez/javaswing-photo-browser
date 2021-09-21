@@ -1,6 +1,6 @@
 package gallery;
 
-import components.photo.PhotoComponent;
+import components.PhotoComponent;
 import utils.Toast;
 import utils.Utils;
 
@@ -159,9 +159,11 @@ public class GalleryUI {
 
     private void setUpPhotoComponent() {
         PhotoComponent photoComponent = new PhotoComponent();
+        photoComponent.setImage("../resources/img/test-image.jpg");
+
         JScrollPane scrollPane = new JScrollPane(photoComponent);
-        scrollPane.setMaximumSize(new Dimension(Utils.getPhotoComponentWidth(),
-                Utils.getPhotoComponentHeight()));
+        scrollPane.setMaximumSize(new Dimension(Utils.getScrollPaneWidth(),
+                Utils.getScrollPaneHeight()));
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 

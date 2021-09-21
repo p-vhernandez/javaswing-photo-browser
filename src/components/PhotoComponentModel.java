@@ -1,4 +1,4 @@
-package components.photo;
+package components;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -8,7 +8,8 @@ public class PhotoComponentModel {
     private final PhotoComponent component;
 
     private String storage;
-    private boolean isFlipped;
+
+    private boolean isFlipped = false;
 
     public PhotoComponentModel(PhotoComponent component) {
         this.component = component;
@@ -43,20 +44,7 @@ public class PhotoComponentModel {
 
     private void flipPicture() {
         isFlipped = !isFlipped;
-
-        if (isFlipped) {
-            displayBackSide();
-        } else {
-            displayPicture();
-        }
-    }
-
-    private void displayBackSide() {
-        // TODO
-    }
-
-    private void displayPicture() {
-        // TODO
+        component.repaint();
     }
 
 }

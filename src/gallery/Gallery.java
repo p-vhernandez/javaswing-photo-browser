@@ -21,7 +21,7 @@ public class Gallery extends JFrame{
     }
 
     private void setUpAppIcon() {
-        Image appIcon = Utils.generateImage(this, "resources/img/picture.png");
+        Image appIcon = Utils.generateImage(this, "../resources/img/picture.png");
         setIconImage(appIcon);
     }
 

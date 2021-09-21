@@ -21,7 +21,7 @@ public class Utils {
     private static final int WINDOW_WIDTH = 800;
     private static final int WINDOW_HEIGHT = 700;
     private static final int TOOLBAR_WIDTH = 120;
-    private static final int PHOTO_COMPONENT_HEIGHT = 300;
+    private static final int PHOTO_COMPONENT_BORDER = 10;
 
     public static String getAppName() {
         return APP_NAME;
@@ -63,12 +63,16 @@ public class Utils {
         return TOOLBAR_WIDTH;
     }
 
-    public static int getPhotoComponentWidth() {
+    public static int getScrollPaneWidth() {
         return WINDOW_WIDTH - TOOLBAR_WIDTH;
     }
 
-    public static int getPhotoComponentHeight() {
-        return PHOTO_COMPONENT_HEIGHT;
+    public static int getScrollPaneHeight() {
+        return WINDOW_HEIGHT;
+    }
+
+    public static int getPhotoComponentBorder() {
+        return PHOTO_COMPONENT_BORDER;
     }
 
     public static Image generateImage(Object object, String directory) {
