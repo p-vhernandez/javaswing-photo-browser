@@ -28,10 +28,6 @@ public class PhotoComponentModel {
         return isFlipped;
     }
 
-    public ArrayList<Stroke> getDrawnLines() {
-        return drawnStrokes;
-    }
-
     public void flipPicture() {
         isFlipped = !isFlipped;
     }

@@ -44,7 +44,7 @@ public class PhotoComponentUI {
                     imageWidth,
                     imageHeight);
 
-            for (Stroke stroke : component.getDrawnLines()) {
+            for (Stroke stroke : component.getDrawnStrokes()) {
                 stroke.draw(g);
             }
         }

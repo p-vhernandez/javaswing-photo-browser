@@ -48,13 +48,13 @@ public class PhotoComponent extends JComponent {
             }
         });
 
-        addMouseListener(new MouseAdapter() {
+        addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
                 if (model.isFlipped()) {
                     if (model.getCurrentStroke() == null) {
                         model.setCurrentStroke(new Stroke(Color.darkGray));
-                        model.getDrawnLines().add(model.getCurrentStroke());
+                        model.getDrawnStrokes().add(model.getCurrentStroke());
                     }
 
                     model.getCurrentStroke().addDrawnPoint(e.getPoint());
@@ -63,7 +63,7 @@ public class PhotoComponent extends JComponent {
             }
         });
 
-        addMouseListener(new MouseAdapter() {
+        addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
                 if (model.isFlipped()) {
@@ -108,8 +108,8 @@ public class PhotoComponent extends JComponent {
         return this.view.getImageHeight();
     }
 
-    public ArrayList<Stroke> getDrawnLines() {
-        return this.model.getDrawnLines();
+    public ArrayList<Stroke> getDrawnStrokes() {
+        return this.model.getDrawnStrokes();
     }
 
     public void paintComponent(Graphics g) {
