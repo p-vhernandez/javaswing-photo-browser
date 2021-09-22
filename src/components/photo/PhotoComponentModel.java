@@ -1,7 +1,9 @@
 package components.photo;
 
 import components.drawing.Stroke;
+import components.drawing.TypedText;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class PhotoComponentModel {
@@ -11,6 +13,10 @@ public class PhotoComponentModel {
 
     private ArrayList<Stroke> drawnStrokes = new ArrayList<>();
     private Stroke currentStroke = null;
+
+    private ArrayList<TypedText> typedTexts = new ArrayList<>();
+    private Point currentInsertPoint = null;
+    private TypedText currentTypedText = null;
 
     public void setStorage(String directory) {
         this.storage = directory;
@@ -46,6 +52,34 @@ public class PhotoComponentModel {
 
     public void setCurrentStroke(Stroke stroke) {
         currentStroke = stroke;
+    }
+
+    public Point getCurrentInsertTextPoint() {
+        return currentInsertPoint;
+    }
+
+    public void setCurrentInsertTextPoint(Point point) {
+        currentInsertPoint = point;
+    }
+    
+    public TypedText getCurrentTypedText() {
+        return currentTypedText;
+    }
+    
+    public void setCurrentTypedText(TypedText typedText) {
+        currentTypedText = typedText;
+    }
+    
+    public void addCCharacterToCurrentTypedText(String letter) {
+        currentTypedText.addCharacter(letter);
+    }
+
+    public ArrayList<TypedText> getTypedTexts() {
+        return typedTexts;
+    }
+
+    public void addTypedText(TypedText typedText) {
+        typedTexts.add(typedText);
     }
 
 }

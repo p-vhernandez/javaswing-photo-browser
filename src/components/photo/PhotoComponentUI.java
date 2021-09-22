@@ -1,6 +1,7 @@
 package components.photo;
 
 import components.drawing.Stroke;
+import components.drawing.TypedText;
 import utils.Utils;
 
 import javax.swing.border.LineBorder;
@@ -46,6 +47,10 @@ public class PhotoComponentUI {
 
             for (Stroke stroke : component.getDrawnStrokes()) {
                 stroke.draw(g);
+            }
+
+            for (TypedText typedText : component.getTypedTexts()) {
+                typedText.draw(g);
             }
         }
     }

@@ -1,6 +1,7 @@
 package components.photo;
 
 import components.drawing.Stroke;
+import components.drawing.TypedText;
 import utils.Utils;
 
 import javax.swing.*;
@@ -34,16 +35,11 @@ public class PhotoComponent extends JComponent {
             public void mouseClicked(MouseEvent event) {
                 if (event.getClickCount() == 2) {
                     flipPicture();
-                }
-            }
-        });
-
-        addMouseMotionListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                if (model.isFlipped()) {
-                    // TODO
-                    System.out.println("Mouse pressed!");
+                } else if (event.getClickCount() == 1 && model.isFlipped()) {
+                    setFocusable(true);
+                    requestFocusInWindow();
+                    model.setCurrentTypedText(new TypedText(Color.red, event.getPoint()));
+                    model.addTypedText(model.getCurrentTypedText());
                 }
             }
         });
@@ -76,7 +72,8 @@ public class PhotoComponent extends JComponent {
             @Override
             public void keyTyped(KeyEvent e) {
                 if (model.isFlipped()) {
-                    System.out.println("KEY: " + e.getKeyChar());
+                    model.addCCharacterToCurrentTypedText(String.valueOf(e.getKeyChar()));
+                    repaint();
                 }
             }
         });
@@ -85,8 +82,8 @@ public class PhotoComponent extends JComponent {
     private void flipPicture() {
         model.flipPicture();
 
-        if (model.isFlipped()) {
-            setFocusable(true);
+        if (!model.isFlipped()) {
+            setFocusable(false);
         }
 
         repaint();
@@ -110,6 +107,10 @@ public class PhotoComponent extends JComponent {
 
     public ArrayList<Stroke> getDrawnStrokes() {
         return this.model.getDrawnStrokes();
+    }
+
+    public ArrayList<TypedText> getTypedTexts() {
+        return this.model.getTypedTexts();
     }
 
     public void paintComponent(Graphics g) {
