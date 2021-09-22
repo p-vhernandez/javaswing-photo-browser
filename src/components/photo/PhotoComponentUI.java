@@ -1,5 +1,6 @@
-package components;
+package components.photo;
 
+import components.drawing.Stroke;
 import utils.Utils;
 
 import javax.swing.border.LineBorder;
@@ -43,22 +44,8 @@ public class PhotoComponentUI {
                     imageWidth,
                     imageHeight);
 
-            g.setColor(Color.black);
-
-            int i = 0;
-            while (i < component.getDrawnPoints().size() -1) {
-                Point currentPoint = component.getDrawnPoints().get(i);
-                Point nextPoint = component.getDrawnPoints().get(i + 1);
-
-                if (nextPoint.x != -1 && nextPoint.y != -1) {
-                    RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
-                            RenderingHints.VALUE_ANTIALIAS_ON);
-                    g.setRenderingHints(rh);
-                    g.drawLine(currentPoint.x, currentPoint.y, nextPoint.x, nextPoint.y);
-                    i++;
-                } else {
-                    i+=2;
-                }
+            for (Stroke stroke : component.getDrawnLines()) {
+                stroke.draw(g);
             }
         }
     }

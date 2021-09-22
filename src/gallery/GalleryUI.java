@@ -1,6 +1,6 @@
 package gallery;
 
-import components.PhotoComponent;
+import components.photo.PhotoComponent;
 import utils.Toast;
 import utils.Utils;
 
@@ -121,6 +121,9 @@ public class GalleryUI {
 
         toolBar.setFloatable(true);
         toolBar.setOrientation(SwingConstants.VERTICAL);
+        toolBar.setPreferredSize(new Dimension(Utils.getToolbarWidth(),
+                Utils.getWindowHeight()));
+
         toolBar.add(btnCategoryPeople);
         toolBar.add(btnCategoryPlaces);
         toolBar.add(btnCategoryPets);
@@ -159,7 +162,7 @@ public class GalleryUI {
 
     private void setUpPhotoComponent() {
         PhotoComponent photoComponent = new PhotoComponent();
-        photoComponent.setImage("../resources/img/test-image.jpg");
+        photoComponent.setImage("../../resources/img/test-image.jpg");
 
         JScrollPane scrollPane = new JScrollPane(photoComponent);
         scrollPane.setPreferredSize(new Dimension(Utils.getScrollPaneWidth(),
