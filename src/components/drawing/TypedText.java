@@ -48,12 +48,24 @@ public class TypedText implements Drawing {
                 (imageWidth - insertPoint.x);
     }
 
-    private String addNewLine(int position) {
-        if (typedText.charAt(position - 1) != '\n') {
-            return typedText.substring(0, position) + "\n" + typedText.substring(position);
+    private String addNewLine(int position, int blankSpace) {
+        if (blankSpace != 0) {
+            return typedText.substring(0, blankSpace + 1) + "\n" + typedText.substring(blankSpace + 1);
         } else {
-            return typedText;
+            return typedText += "\n";
         }
+    }
+
+    private int searchForLastBlankSpacePosition() {
+        int lastBlankSpace = 0;
+
+        for (int i = 0; i < typedText.length() - 1; i++) {
+            if (typedText.charAt(i) == ' ') {
+                lastBlankSpace = i;
+            }
+        }
+
+        return lastBlankSpace;
     }
 
     @Override
@@ -62,20 +74,19 @@ public class TypedText implements Drawing {
         g.setFont(g.getFont().deriveFont(Float.valueOf(fontSize)));
 
         substrings = typedText.split("\n");
+        int originalY = insertPoint.y;
+        int blankSpace = searchForLastBlankSpacePosition();
+
         if (!textInsideImage(g, substrings)) {
             int characterCount = typedText.length();
-            typedText = addNewLine(characterCount);
-            System.out.println("Splitting");
-            System.out.println(typedText);
-
-            for (int i = 0; i < substrings.length; i++) {
-                System.out.println("Substring " + i + ": " + substrings[i]);
-            }
+            typedText = addNewLine(characterCount, blankSpace);
         }
 
-        for (int i = 0; i < substrings.length; i++) {
-            g.drawString(substrings[i], insertPoint.x,
-                    insertPoint.y += (g.getFontMetrics().getHeight() * i));
+        for (String substring : substrings) {
+            g.drawString(substring, insertPoint.x,
+                    insertPoint.y += g.getFontMetrics().getHeight());
         }
+
+        insertPoint.y = originalY;
     }
 }
