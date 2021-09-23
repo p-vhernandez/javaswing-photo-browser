@@ -1,6 +1,8 @@
 package components.photo;
 
 import components.drawing.DrawingMode;
+import components.drawing.Ellipse;
+import components.drawing.Rectangle;
 import components.drawing.Stroke;
 import components.drawing.TypedText;
 import utils.Utils;
@@ -59,22 +61,11 @@ public class PhotoComponent extends JComponent {
             @Override
             public void mouseDragged(MouseEvent e) {
                 if (model.isFlipped()) {
-                    if (model.getCurrentStroke() == null) {
-                        model.setCurrentStroke(
-                                new Stroke(
-                                        model.getPenColor(),
-                                        model.getPenSize(),
-                                        view.getImageWidth(),
-                                        view.getImageHeight(),
-                                        Utils.getPhotoComponentBorder(),
-                                        Utils.getPhotoComponentBorder())
-                        );
-
-                        model.getDrawnStrokes().add(model.getCurrentStroke());
+                    switch (model.getDrawingMode()) {
+                        case FREE -> drawLine(e.getPoint());
+                        case ELLIPSE -> drawEllipse(e.getPoint());
+                        case RECTANGLE -> drawRectangle(e.getPoint());
                     }
-
-                    model.getCurrentStroke().addDrawnPoint(e.getPoint());
-                    repaint();
                 }
             }
         });
@@ -83,7 +74,11 @@ public class PhotoComponent extends JComponent {
             @Override
             public void mouseReleased(MouseEvent e) {
                 if (model.isFlipped()) {
-                    model.setCurrentStroke(null);
+                    switch (model.getDrawingMode()) {
+                        case FREE -> model.setCurrentStroke(null);
+                        case ELLIPSE -> model.setCurrentEllipse(null);
+                        case RECTANGLE -> model.setCurrentRectangle(null);
+                    }
                 }
             }
         });
@@ -97,6 +92,60 @@ public class PhotoComponent extends JComponent {
                 }
             }
         });
+    }
+
+    private void drawLine(Point currentPoint) {
+        if (model.getCurrentStroke() == null) {
+            model.setCurrentStroke(
+                    new Stroke(
+                            model.getPenColor(),
+                            model.getPenSize(),
+                            view.getImageWidth(),
+                            view.getImageHeight(),
+                            Utils.getPhotoComponentBorder(),
+                            Utils.getPhotoComponentBorder())
+            );
+
+            model.getDrawnStrokes().add(model.getCurrentStroke());
+        }
+
+        model.getCurrentStroke().addDrawnPoint(currentPoint);
+        repaint();
+    }
+
+    private void drawEllipse(Point currentPoint) {
+        if (model.getCurrentEllipse() == null) {
+            model.setCurrentEllipse(
+                    new Ellipse(
+                            model.getPenColor(),
+                            model.getPenSize(),
+                            currentPoint,
+                            currentPoint)
+            );
+
+            model.getDrawnEllipses().add(model.getCurrentEllipse());
+        }
+
+        model.getCurrentEllipse().updateEndPoint(currentPoint);
+        repaint();
+    }
+
+    private void drawRectangle(Point currentPoint) {
+        if (model.getCurrentRectangle() == null) {
+            model.setCurrentRectangle(
+                    new Rectangle(
+                            model.getPenColor(),
+                            model.getPenSize(),
+                            currentPoint,
+                            currentPoint)
+            );
+
+            System.out.println(model.getCurrentRectangle().toString());
+            model.getDrawnRectangles().add(model.getCurrentRectangle());
+        }
+
+        model.getCurrentRectangle().updateEndPoint(currentPoint);
+        repaint();
     }
 
     private void flipPicture() {
@@ -169,6 +218,14 @@ public class PhotoComponent extends JComponent {
 
     public ArrayList<TypedText> getTypedTexts() {
         return this.model.getTypedTexts();
+    }
+
+    public ArrayList<Ellipse> getDrawnEllipses() {
+        return this.model.getDrawnEllipses();
+    }
+
+    public ArrayList<Rectangle> getDrawnRectangles() {
+        return this.model.getDrawnRectangles();
     }
 
     public void paintComponent(Graphics g) {

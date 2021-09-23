@@ -1,10 +1,11 @@
 package components.photo;
 
+import components.drawing.Ellipse;
+import components.drawing.Rectangle;
 import components.drawing.Stroke;
 import components.drawing.TypedText;
 import utils.Utils;
 
-import javax.swing.border.LineBorder;
 import java.awt.*;
 
 public class PhotoComponentUI {
@@ -46,6 +47,14 @@ public class PhotoComponentUI {
 
             for (Stroke stroke : component.getDrawnStrokes()) {
                 stroke.draw(g);
+            }
+
+            for (Ellipse ellipse : component.getDrawnEllipses()) {
+                ellipse.draw(g);
+            }
+
+            for (Rectangle rectangle : component.getDrawnRectangles()) {
+                rectangle.draw(g);
             }
 
             for (TypedText typedText : component.getTypedTexts()) {

@@ -1,6 +1,8 @@
 package components.photo;
 
 import components.drawing.DrawingMode;
+import components.drawing.Ellipse;
+import components.drawing.Rectangle;
 import components.drawing.Stroke;
 import components.drawing.TypedText;
 
@@ -15,9 +17,15 @@ public class PhotoComponentModel {
     private ArrayList<Stroke> drawnStrokes = new ArrayList<>();
     private Stroke currentStroke = null;
 
-    private ArrayList<TypedText> typedTexts = new ArrayList<>();
+    private final ArrayList<TypedText> typedTexts = new ArrayList<>();
     private Point currentInsertPoint = null;
     private TypedText currentTypedText = null;
+
+    private final ArrayList<Ellipse> drawnEllipses = new ArrayList<>();
+    private Ellipse currentEllipse = null;
+
+    private final ArrayList<Rectangle> drawnRectangles = new ArrayList<>();
+    private Rectangle currentRectangle = null;
 
     private Color
             penColor = Color.darkGray,
@@ -131,6 +139,30 @@ public class PhotoComponentModel {
 
     public DrawingMode getDrawingMode() {
         return drawingMode;
+    }
+
+    public void setCurrentEllipse(Ellipse ellipse) {
+        this.currentEllipse = ellipse;
+    }
+
+    public Ellipse getCurrentEllipse() {
+        return currentEllipse;
+    }
+
+    public void setCurrentRectangle(Rectangle rectangle) {
+        this.currentRectangle = rectangle;
+    }
+
+    public Rectangle getCurrentRectangle() {
+        return currentRectangle;
+    }
+
+    public ArrayList<Ellipse> getDrawnEllipses() {
+        return drawnEllipses;
+    }
+
+    public ArrayList<Rectangle> getDrawnRectangles() {
+        return drawnRectangles;
     }
 
 }
