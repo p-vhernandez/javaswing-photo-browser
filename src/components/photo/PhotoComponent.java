@@ -140,7 +140,6 @@ public class PhotoComponent extends JComponent {
                             currentPoint)
             );
 
-            System.out.println(model.getCurrentRectangle().toString());
             model.getDrawnRectangles().add(model.getCurrentRectangle());
         }
 
