@@ -11,8 +11,8 @@ public class PhotoComponentUI {
 
     private final PhotoComponent component;
 
-    private int imageWidth;
-    private int imageHeight;
+    private int imageWidth = 0;
+    private int imageHeight = 0;
 
     private Image selectedImage;
 
@@ -21,27 +21,26 @@ public class PhotoComponentUI {
     }
 
     public void initializeUI() {
-        component.setBorder(new LineBorder(new Color(201, 201, 201),
-                Utils.getPhotoComponentBorder()));
+        //component.setBorder(new LineBorder(new Color(201, 201, 201),
+                //Utils.getPhotoComponentBorder()));
     }
 
     public void paint(Graphics2D g, boolean isFlipped) {
         getImageData();
+        setComponentSize();
+        paintImageBorder(g);
 
         if (!isFlipped) {
-            setComponentSize();
-            paintImageBorder(g);
             g.drawImage(selectedImage,
-                    Utils.getPhotoComponentBorder() * 2,
-                    Utils.getPhotoComponentBorder() * 2,
+                    Utils.getPhotoComponentBorder(),
+                    Utils.getPhotoComponentBorder(),
                     imageWidth,
                     imageHeight,
                     component);
         } else {
-            paintImageBorder(g);
             g.setColor(Color.white);
-            g.fillRect(Utils.getPhotoComponentBorder() * 2,
-                    Utils.getPhotoComponentBorder() * 2,
+            g.fillRect(Utils.getPhotoComponentBorder(),
+                    Utils.getPhotoComponentBorder(),
                     imageWidth,
                     imageHeight);
 
@@ -56,9 +55,11 @@ public class PhotoComponentUI {
     }
 
     private void getImageData() {
-        selectedImage = Utils.generateImage(this, component.getImage());
-        imageWidth = selectedImage.getWidth(component);
-        imageHeight = selectedImage.getHeight(component);
+        selectedImage = Utils.generateImageFromPath(component.getImage());
+        if (selectedImage != null) {
+            imageWidth = selectedImage.getWidth(component);
+            imageHeight = selectedImage.getHeight(component);
+        }
     }
 
     private void setComponentSize() {
@@ -73,8 +74,7 @@ public class PhotoComponentUI {
     }
 
     private void paintImageBorder(Graphics2D g) {
-        g.fillRect(Utils.getPhotoComponentBorder(), Utils.getPhotoComponentBorder(),
-                imageWidth + Utils.getPhotoComponentBorder() * 2,
+        g.fillRect(0, 0, imageWidth + Utils.getPhotoComponentBorder() * 2,
                 imageHeight + Utils.getPhotoComponentBorder() * 2);
     }
 

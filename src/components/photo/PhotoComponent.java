@@ -38,7 +38,17 @@ public class PhotoComponent extends JComponent {
                 } else if (event.getClickCount() == 1 && model.isFlipped()) {
                     setFocusable(true);
                     requestFocusInWindow();
-                    model.setCurrentTypedText(new TypedText(Color.red, event.getPoint()));
+                    model.setCurrentTypedText(
+                            new TypedText(
+                                    model.getFontColor(),
+                                    model.getFontSize(),
+                                    event.getPoint(),
+                                    view.getImageWidth(),
+                                    view.getImageHeight(),
+                                    Utils.getPhotoComponentBorder(),
+                                    Utils.getPhotoComponentBorder())
+                    );
+
                     model.addTypedText(model.getCurrentTypedText());
                 }
             }
@@ -49,7 +59,16 @@ public class PhotoComponent extends JComponent {
             public void mouseDragged(MouseEvent e) {
                 if (model.isFlipped()) {
                     if (model.getCurrentStroke() == null) {
-                        model.setCurrentStroke(new Stroke(Color.darkGray));
+                        model.setCurrentStroke(
+                                new Stroke(
+                                        model.getPenColor(),
+                                        model.getPenSize(),
+                                        view.getImageWidth(),
+                                        view.getImageHeight(),
+                                        Utils.getPhotoComponentBorder(),
+                                        Utils.getPhotoComponentBorder())
+                        );
+
                         model.getDrawnStrokes().add(model.getCurrentStroke());
                     }
 
@@ -59,7 +78,7 @@ public class PhotoComponent extends JComponent {
             }
         });
 
-        addMouseMotionListener(new MouseAdapter() {
+        addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
                 if (model.isFlipped()) {
@@ -91,6 +110,36 @@ public class PhotoComponent extends JComponent {
 
     public void setImage(String imageDirectory) {
         this.model.setStorage(imageDirectory);
+        revalidate();
+        repaint();
+    }
+
+    public void setPenColor(Color penColor) {
+        this.model.setPenColor(penColor);
+    }
+
+    public Color getPenColor() {
+        return this.model.getPenColor();
+    }
+
+    public void setPenSize(int penSize) {
+        this.model.setPenSize(penSize);
+    }
+
+    public int getPenSize() {
+        return this.model.getPenSize();
+    }
+
+    public void setFontColor(Color fontColor) {
+        this.model.setFontColor(fontColor);
+    }
+
+    public void setFontSize(int fontSize) {
+        this.model.setFontSize(fontSize);
+    }
+
+    public int getFontSize() {
+        return this.model.getFontSize();
     }
 
     public String getImage() {

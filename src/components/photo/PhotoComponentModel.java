@@ -18,6 +18,14 @@ public class PhotoComponentModel {
     private Point currentInsertPoint = null;
     private TypedText currentTypedText = null;
 
+    private Color
+            penColor = Color.darkGray,
+            fontColor = Color.darkGray;
+
+    private int
+            penSize = 1,
+            fontSize = 12;
+
     public void setStorage(String directory) {
         this.storage = directory;
     }
@@ -80,6 +88,38 @@ public class PhotoComponentModel {
 
     public void addTypedText(TypedText typedText) {
         typedTexts.add(typedText);
+    }
+
+    public Color getPenColor() {
+        return penColor;
+    }
+
+    public void setPenColor(Color color) {
+        this.penColor = color;
+    }
+
+    public int getPenSize() {
+        return penSize;
+    }
+
+    public void setPenSize(int penSize) {
+        this.penSize = penSize;
+    }
+
+    public Color getFontColor() {
+        return fontColor;
+    }
+
+    public void setFontColor(Color fontColor) {
+        this.fontColor = fontColor;
+    }
+
+    public int getFontSize() {
+        return fontSize;
+    }
+
+    public void setFontSize(int fontSize) {
+        this.fontSize = fontSize;
     }
 
 }
