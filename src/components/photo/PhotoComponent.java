@@ -1,5 +1,6 @@
 package components.photo;
 
+import components.drawing.DrawingMode;
 import components.drawing.Stroke;
 import components.drawing.TypedText;
 import utils.Utils;
@@ -140,6 +141,14 @@ public class PhotoComponent extends JComponent {
 
     public int getFontSize() {
         return this.model.getFontSize();
+    }
+
+    public void setDrawingMode(DrawingMode drawingMode) {
+        this.model.setDrawingMode(drawingMode);
+    }
+
+    public DrawingMode getDrawingMode() {
+        return this.model.getDrawingMode();
     }
 
     public String getImage() {

@@ -1,5 +1,6 @@
 package components.photo;
 
+import components.drawing.DrawingMode;
 import components.drawing.Stroke;
 import components.drawing.TypedText;
 
@@ -25,6 +26,8 @@ public class PhotoComponentModel {
     private int
             penSize = 1,
             fontSize = 12;
+
+    private DrawingMode drawingMode = DrawingMode.FREE;
 
     public void setStorage(String directory) {
         this.storage = directory;
@@ -120,6 +123,14 @@ public class PhotoComponentModel {
 
     public void setFontSize(int fontSize) {
         this.fontSize = fontSize;
+    }
+
+    public void setDrawingMode(DrawingMode drawingMode) {
+        this.drawingMode = drawingMode;
+    }
+
+    public DrawingMode getDrawingMode() {
+        return drawingMode;
     }
 
 }

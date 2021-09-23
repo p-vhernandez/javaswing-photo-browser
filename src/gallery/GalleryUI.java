@@ -1,5 +1,6 @@
 package gallery;
 
+import components.drawing.DrawingMode;
 import components.photo.PhotoComponent;
 import utils.Utils;
 
@@ -21,6 +22,7 @@ public class GalleryUI {
     private final JMenu
             fileMenu = new JMenu("File"),
             viewMenu = new JMenu("View"),
+            drawingModeMenu = new JMenu("Drawing mode"),
             penMenu = new JMenu("Pen options"),
             textMenu = new JMenu("Text options");
 
@@ -36,7 +38,10 @@ public class GalleryUI {
 
     private final JRadioButtonMenuItem
             iViewer = new JRadioButtonMenuItem("Viewer", true),
-            iBrowser = new JRadioButtonMenuItem("Browser", false);
+            iBrowser = new JRadioButtonMenuItem("Browser", false),
+            iFreeHand = new JRadioButtonMenuItem("Free hand", true),
+            iEllipse = new JRadioButtonMenuItem("Ellipses", true),
+            iRectangle = new JRadioButtonMenuItem("Rectangles", true);
 
     private final JToggleButton
             btnCategoryPeople = new JToggleButton(),
@@ -67,6 +72,7 @@ public class GalleryUI {
 
         menuBar.add(fileMenu);
         menuBar.add(viewMenu);
+        menuBar.add(drawingModeMenu);
         menuBar.add(penMenu);
         menuBar.add(textMenu);
 
@@ -125,6 +131,17 @@ public class GalleryUI {
 
     // TODO: select colors, sizes, fonts
     private void setOptionalItems() {
+        ButtonGroup group = new ButtonGroup();
+
+        group.add(iFreeHand);
+        group.add(iEllipse);
+        group.add(iRectangle);
+
+        drawingModeMenu.add(iFreeHand);
+        drawingModeMenu.add(iEllipse);
+        drawingModeMenu.add(iRectangle);
+
+        setUpDrawingOptionsListeners();
         setUpPenOptionsListeners();
         setUpFontOptionsListeners();
 
@@ -134,6 +151,12 @@ public class GalleryUI {
         textMenu.add(iFontColorChooser);
         textMenu.add(iFontSizeChooser);
         textMenu.add(iFontStyleChooser);
+    }
+
+    private void setUpDrawingOptionsListeners() {
+        iFreeHand.addActionListener(listener -> photoComponent.setDrawingMode(DrawingMode.FREE));
+        iEllipse.addActionListener(listener -> photoComponent.setDrawingMode(DrawingMode.ELLIPSE));
+        iRectangle.addActionListener(listener -> photoComponent.setDrawingMode(DrawingMode.RECTANGLE));
     }
 
     private void setUpToolBar() {
@@ -273,6 +296,7 @@ public class GalleryUI {
     }
 
     private void showOptionalMenuItems(boolean show) {
+        drawingModeMenu.setVisible(show);
         penMenu.setVisible(show);
         textMenu.setVisible(show);
     }
