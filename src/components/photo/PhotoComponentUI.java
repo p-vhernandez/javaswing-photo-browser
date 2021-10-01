@@ -22,6 +22,7 @@ public class PhotoComponentUI {
     }
 
     public void initializeUI() {
+        component.setBackground(Color.red);
         //component.setBorder(new LineBorder(new Color(201, 201, 201),
                 //Utils.getPhotoComponentBorder()));
     }
@@ -72,6 +73,8 @@ public class PhotoComponentUI {
     }
 
     private void setComponentSize() {
+        component.setMinimumSize(component.getMinimumSize());
+
         if (imageWidth > Utils.getScrollPaneWidth()
                 || imageHeight > Utils.getScrollPaneHeight()) {
             component.setComponentSize(imageWidth + Utils.getPhotoComponentBorder() * 2,

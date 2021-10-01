@@ -49,7 +49,8 @@ public class PhotoComponent extends JComponent {
                                     view.getImageWidth(),
                                     view.getImageHeight(),
                                     Utils.getPhotoComponentBorder(),
-                                    Utils.getPhotoComponentBorder())
+                                    Utils.getPhotoComponentBorder(),
+                                    model.getFont())
                     );
 
                     model.addTypedText(model.getCurrentTypedText());
@@ -87,7 +88,12 @@ public class PhotoComponent extends JComponent {
             @Override
             public void keyTyped(KeyEvent e) {
                 if (model.isFlipped()) {
-                    model.addCCharacterToCurrentTypedText(String.valueOf(e.getKeyChar()));
+                    if (e.getKeyChar() == '\u0008') {
+                        model.deleteLastTypedCharacter();
+                    } else {
+                        model.addCCharacterToCurrentTypedText(String.valueOf(e.getKeyChar()));
+                    }
+
                     repaint();
                 }
             }
@@ -199,6 +205,28 @@ public class PhotoComponent extends JComponent {
         return this.model.getDrawingMode();
     }
 
+    public void setFontID(int id) {
+        this.model.setFontID(id);
+        setFont(id);
+    }
+
+    public void setFont(int newFont) {
+        switch (newFont) {
+            case 0 -> this.model.setFont(Utils.generateFont(this, "../../resources/font/urbanist-regular.ttf"));
+            case 1 -> this.model.setFont(Utils.generateFont(this, "../../resources/font/urbanist-medium.ttf"));
+            case 2 -> this.model.setFont(Utils.generateFont(this, "../../resources/font/urbanist-semibold.ttf"));
+            case 3 -> this.model.setFont(Utils.generateFont(this, "../../resources/font/urbanist-bold.ttf"));
+        }
+    }
+
+    public int getFontID() {
+        return this.model.getFontID();
+    }
+
+    public Font getFont() {
+        return this.model.getFont();
+    }
+
     public String getImage() {
         return this.model.getStorage();
     }
@@ -240,8 +268,8 @@ public class PhotoComponent extends JComponent {
     }
 
     public Dimension getMinimumSize() {
-        return new Dimension(Utils.getScrollPaneWidth(),
-                Utils.getScrollPaneHeight());
+        return new Dimension(Utils.getPhotoComponentMinWidth(),
+                Utils.getPhotoComponentMinHeight());
     }
 
 }

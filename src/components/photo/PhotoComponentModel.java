@@ -5,6 +5,7 @@ import components.drawing.Ellipse;
 import components.drawing.Rectangle;
 import components.drawing.Stroke;
 import components.drawing.TypedText;
+import utils.Utils;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -33,9 +34,12 @@ public class PhotoComponentModel {
 
     private int
             penSize = 1,
-            fontSize = 12;
+            fontSize = 14;
 
     private DrawingMode drawingMode = DrawingMode.FREE;
+
+    private Font font = Utils.generateFont(this, "../../resources/font/urbanist-medium.ttf");
+    private int fontID = 1;
 
     public void setStorage(String directory) {
         this.storage = directory;
@@ -165,4 +169,23 @@ public class PhotoComponentModel {
         return drawnRectangles;
     }
 
+    public void deleteLastTypedCharacter() {
+        this.currentTypedText.deleteLastTypedCharacter();
+    }
+
+    public Font getFont() {
+        return font;
+    }
+
+    public void setFont(Font font) {
+        this.font = font;
+    }
+
+    public int getFontID() {
+        return fontID;
+    }
+
+    public void setFontID(int fontID) {
+        this.fontID = fontID;
+    }
 }

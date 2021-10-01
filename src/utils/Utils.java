@@ -4,6 +4,8 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Objects;
 
 public class Utils {
 
@@ -21,10 +23,19 @@ public class Utils {
             "Pets"
     };
 
+    private static final String[] FONT_OPTIONS = {
+            "Regular",
+            "Medium",
+            "Semi-bold",
+            "Bold"
+    };
+
     private static final int WINDOW_WIDTH = 950;
     private static final int WINDOW_HEIGHT = 800;
     private static final int TOOLBAR_WIDTH = 120;
     private static final int PHOTO_COMPONENT_BORDER = 10;
+    private static final int PHOTO_COMPONENT_MIN_WIDTH = 600;
+    private static final int PHOTO_COMPONENT_MIN_HEIGHT = 550;
 
     public static String getAppName() {
         return APP_NAME;
@@ -44,6 +55,10 @@ public class Utils {
 
     public static String[] getCategories() {
         return CATEGORIES;
+    }
+
+    public static String[] getFontOptions() {
+        return FONT_OPTIONS;
     }
 
     public static String getSelected() {
@@ -78,6 +93,14 @@ public class Utils {
         return PHOTO_COMPONENT_BORDER;
     }
 
+    public static int getPhotoComponentMinWidth() {
+        return PHOTO_COMPONENT_MIN_WIDTH;
+    }
+
+    public static int getPhotoComponentMinHeight() {
+        return PHOTO_COMPONENT_MIN_HEIGHT;
+    }
+
     public static Image generateImage(Object object, String directory) {
         return Toolkit.getDefaultToolkit()
                 .getImage(object.getClass().getResource(directory));
@@ -87,6 +110,21 @@ public class Utils {
         try {
             return ImageIO.read(new File(path));
         } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Font generateFont(Object object, String path) {
+        try {
+            InputStream is = object.getClass().getResourceAsStream(path);
+
+            if (is != null) {
+                return Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(is));
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }

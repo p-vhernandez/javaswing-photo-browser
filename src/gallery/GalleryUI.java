@@ -129,7 +129,6 @@ public class GalleryUI {
         });
     }
 
-    // TODO: select colors, sizes, fonts
     private void setOptionalItems() {
         ButtonGroup group = new ButtonGroup();
 
@@ -228,7 +227,7 @@ public class GalleryUI {
         });
 
         iPenSizeChooser.addActionListener(e -> {
-            String result = (String)JOptionPane.showInputDialog(
+            String result = (String) JOptionPane.showInputDialog(
                     null,
                     "Type the desired size",
                     "Choose a pen size",
@@ -249,8 +248,8 @@ public class GalleryUI {
             photoComponent.setFontColor(newColor);
         });
 
-        iFontSizeChooser.addActionListener(e -> {
-            String result = (String)JOptionPane.showInputDialog(
+        iFontSizeChooser.addActionListener(listener -> {
+            String result = (String) JOptionPane.showInputDialog(
                     null,
                     "Type the desired size",
                     "Choose a font size",
@@ -262,6 +261,19 @@ public class GalleryUI {
             if (result != null && result.length() > 0) {
                 photoComponent.setFontSize(Integer.parseInt(result));
             }
+        });
+
+        iFontStyleChooser.addActionListener(listener -> {
+            int result = JOptionPane.showOptionDialog(null,
+                    "Font family used: Urbanist",
+                    "Choose a font style",
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE,
+                    null,
+                    Utils.getFontOptions(),
+                    Utils.getFontOptions()[photoComponent.getFontID()]);
+
+            photoComponent.setFontID(result);
         });
     }
 
@@ -280,6 +292,11 @@ public class GalleryUI {
         int returnValue = fileChooser.showOpenDialog(null);
 
         if (returnValue == JFileChooser.APPROVE_OPTION) {
+            if (photoComponent != null
+                    && photoComponent.getImage() != null) {
+                deletePicture();
+            }
+
             setUpPhotoComponent(fileChooser.getSelectedFile().getAbsolutePath());
         }
     }
