@@ -22,9 +22,6 @@ public class PhotoComponentUI {
     }
 
     public void initializeUI() {
-        component.setBackground(Color.red);
-        //component.setBorder(new LineBorder(new Color(201, 201, 201),
-                //Utils.getPhotoComponentBorder()));
     }
 
     public void paint(Graphics2D g, boolean isFlipped) {

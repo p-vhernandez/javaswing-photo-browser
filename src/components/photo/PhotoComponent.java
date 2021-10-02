@@ -28,7 +28,6 @@ public class PhotoComponent extends JComponent {
     }
 
     private void setUpComponent() {
-        this.view.initializeUI();
         addMouseListener();
     }
 
