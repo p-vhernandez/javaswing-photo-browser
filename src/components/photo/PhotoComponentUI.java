@@ -29,20 +29,14 @@ public class PhotoComponentUI {
         setComponentSize();
         paintImageBorder(g);
 
-        if (!isFlipped) {
-            g.drawImage(selectedImage,
-                    Utils.getPhotoComponentBorder(),
-                    Utils.getPhotoComponentBorder(),
-                    imageWidth,
-                    imageHeight,
-                    component);
-        } else {
-            g.setColor(Color.white);
-            g.fillRect(Utils.getPhotoComponentBorder(),
-                    Utils.getPhotoComponentBorder(),
-                    imageWidth,
-                    imageHeight);
+        g.drawImage(selectedImage,
+                Utils.getPhotoComponentBorder(),
+                Utils.getPhotoComponentBorder(),
+                imageWidth,
+                imageHeight,
+                component);
 
+        if (isFlipped) {
             for (Stroke stroke : component.getDrawnStrokes()) {
                 stroke.draw(g);
             }

@@ -53,11 +53,11 @@ public class PhotoComponentModel {
         this.isFlipped = isFlipped;
     }
 
-    public boolean isFlipped() {
+    public boolean annotationsAllowed() {
         return isFlipped;
     }
 
-    public void flipPicture() {
+    public void toggleAnnotations() {
         isFlipped = !isFlipped;
     }
 

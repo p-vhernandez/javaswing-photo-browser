@@ -5,20 +5,20 @@ import components.drawing.Ellipse;
 import components.drawing.Rectangle;
 import components.drawing.Stroke;
 import components.drawing.TypedText;
+import fr.lri.swingstates.debug.StateMachineVisualization;
+import components.states.StateMachine;
 import utils.Utils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class PhotoComponent extends JComponent {
 
     private final PhotoComponentModel model;
     private final PhotoComponentUI view;
+
+    private StateMachine stateMachine;
 
     public PhotoComponent() {
         this.model = new PhotoComponentModel();
@@ -28,75 +28,68 @@ public class PhotoComponent extends JComponent {
     }
 
     private void setUpComponent() {
-        addMouseListener();
+        //addMouseListener();
+        stateMachine = new StateMachine(this);
+        stateMachine.attachTo(this);
+
+        visualizeStateMachine();
     }
 
-    private void addMouseListener() {
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent event) {
-                if (event.getClickCount() == 2) {
-                    flipPicture();
-                } else if (event.getClickCount() == 1 && model.isFlipped()) {
-                    setFocusable(true);
-                    requestFocusInWindow();
-                    model.setCurrentTypedText(
-                            new TypedText(
-                                    model.getFontColor(),
-                                    model.getFontSize(),
-                                    event.getPoint(),
-                                    view.getImageWidth(),
-                                    view.getImageHeight(),
-                                    Utils.getPhotoComponentBorder(),
-                                    Utils.getPhotoComponentBorder(),
-                                    model.getFont())
-                    );
+    public void visualizeStateMachine() {
+        JFrame visualizationFrame = new JFrame();
+        StateMachineVisualization stateMachineVisualization = new StateMachineVisualization(stateMachine);
+        visualizationFrame.add(stateMachineVisualization);
 
-                    model.addTypedText(model.getCurrentTypedText());
-                }
-            }
-        });
+        visualizationFrame.pack();
+        visualizationFrame.setVisible(true);
+    }
 
-        addMouseMotionListener(new MouseAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                if (model.isFlipped()) {
-                    switch (model.getDrawingMode()) {
-                        case FREE -> drawLine(e.getPoint());
-                        case ELLIPSE -> drawEllipse(e.getPoint());
-                        case RECTANGLE -> drawRectangle(e.getPoint());
-                    }
-                }
-            }
-        });
+    public boolean annotationsAllowed() {
+        return this.model.annotationsAllowed();
+    }
 
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                if (model.isFlipped()) {
-                    switch (model.getDrawingMode()) {
-                        case FREE -> model.setCurrentStroke(null);
-                        case ELLIPSE -> model.setCurrentEllipse(null);
-                        case RECTANGLE -> model.setCurrentRectangle(null);
-                    }
-                }
-            }
-        });
+    public void startTyping(Point point) {
+        setFocusable(true);
+        requestFocusInWindow();
+        model.setCurrentTypedText(
+                new TypedText(
+                        model.getFontColor(),
+                        model.getFontSize(),
+                        point,
+                        view.getImageWidth(),
+                        view.getImageHeight(),
+                        Utils.getPhotoComponentBorder(),
+                        Utils.getPhotoComponentBorder(),
+                        model.getFont())
+        );
 
-        addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                if (model.isFlipped()) {
-                    if (e.getKeyChar() == '\u0008') {
-                        model.deleteLastTypedCharacter();
-                    } else {
-                        model.addCCharacterToCurrentTypedText(String.valueOf(e.getKeyChar()));
-                    }
+        model.addTypedText(model.getCurrentTypedText());
+    }
 
-                    repaint();
-                }
-            }
-        });
+    public void draw(Point point) {
+        switch (model.getDrawingMode()) {
+            case FREE -> drawLine(point);
+            case ELLIPSE -> drawEllipse(point);
+            case RECTANGLE -> drawRectangle(point);
+        }
+    }
+
+    public void stopDrawing() {
+        switch (model.getDrawingMode()) {
+            case FREE -> model.setCurrentStroke(null);
+            case ELLIPSE -> model.setCurrentEllipse(null);
+            case RECTANGLE -> model.setCurrentRectangle(null);
+        }
+    }
+
+    public void deleteCharacter() {
+        this.model.deleteLastTypedCharacter();
+        repaint();
+    }
+
+    public void addCharacter(char chararcter) {
+        this.model.addCCharacterToCurrentTypedText(String.valueOf(chararcter));
+        repaint();
     }
 
     private void drawLine(Point currentPoint) {
@@ -152,10 +145,10 @@ public class PhotoComponent extends JComponent {
         repaint();
     }
 
-    private void flipPicture() {
-        model.flipPicture();
+    public void toggleAnnotations() {
+        model.toggleAnnotations();
 
-        if (!model.isFlipped()) {
+        if (!model.annotationsAllowed()) {
             setFocusable(false);
         }
 
@@ -255,7 +248,7 @@ public class PhotoComponent extends JComponent {
     }
 
     public void paintComponent(Graphics g) {
-        this.view.paint((Graphics2D) g, this.model.isFlipped());
+        this.view.paint((Graphics2D) g, this.model.annotationsAllowed());
     }
 
     public void updateUI() {
