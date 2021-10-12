@@ -3,7 +3,7 @@ package components.drawing;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-public class Rectangle implements Drawing {
+public class Rectangle extends Drawing {
 
     private final Color color;
     private final int penSize;

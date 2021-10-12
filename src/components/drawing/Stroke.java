@@ -3,7 +3,7 @@ package components.drawing;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Stroke implements Drawing {
+public class Stroke extends Drawing {
 
     private final ArrayList<Point> drawnPoints;
     private final Color color;

@@ -1,9 +1,6 @@
 package components.photo;
 
-import components.drawing.Ellipse;
-import components.drawing.Rectangle;
-import components.drawing.Stroke;
-import components.drawing.TypedText;
+import components.drawing.*;
 import utils.Utils;
 
 import java.awt.*;
@@ -21,9 +18,6 @@ public class PhotoComponentUI {
         this.component = component;
     }
 
-    public void initializeUI() {
-    }
-
     public void paint(Graphics2D g, boolean isFlipped) {
         getImageData();
         setComponentSize();
@@ -37,20 +31,8 @@ public class PhotoComponentUI {
                 component);
 
         if (isFlipped) {
-            for (Stroke stroke : component.getDrawnStrokes()) {
-                stroke.draw(g);
-            }
-
-            for (Ellipse ellipse : component.getDrawnEllipses()) {
-                ellipse.draw(g);
-            }
-
-            for (Rectangle rectangle : component.getDrawnRectangles()) {
-                rectangle.draw(g);
-            }
-
-            for (TypedText typedText : component.getTypedTexts()) {
-                typedText.draw(g);
+            for (Drawing drawing : component.getDrawings()) {
+                drawing.draw(g);
             }
         }
     }

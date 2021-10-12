@@ -2,8 +2,8 @@ package components.drawing;
 
 import java.awt.*;
 
-public interface Drawing {
+public abstract class Drawing {
 
-    void draw(Graphics2D g);
+    public abstract void draw(Graphics2D g);
 
 }

@@ -1,10 +1,8 @@
 package components.photo;
 
-import components.drawing.DrawingMode;
-import components.drawing.Ellipse;
+import components.drawing.*;
 import components.drawing.Rectangle;
 import components.drawing.Stroke;
-import components.drawing.TypedText;
 import fr.lri.swingstates.debug.StateMachineVisualization;
 import components.states.StateMachine;
 import utils.Utils;
@@ -12,6 +10,7 @@ import utils.Utils;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PhotoComponent extends JComponent {
 
@@ -63,7 +62,7 @@ public class PhotoComponent extends JComponent {
                         model.getFont())
         );
 
-        model.addTypedText(model.getCurrentTypedText());
+        model.addDrawing(model.getCurrentTypedText());
     }
 
     public void draw(Point point) {
@@ -104,7 +103,7 @@ public class PhotoComponent extends JComponent {
                             Utils.getPhotoComponentBorder())
             );
 
-            model.getDrawnStrokes().add(model.getCurrentStroke());
+            model.addDrawing(model.getCurrentStroke());
         }
 
         model.getCurrentStroke().addDrawnPoint(currentPoint);
@@ -121,7 +120,7 @@ public class PhotoComponent extends JComponent {
                             currentPoint)
             );
 
-            model.getDrawnEllipses().add(model.getCurrentEllipse());
+            model.addDrawing(model.getCurrentEllipse());
         }
 
         model.getCurrentEllipse().updateEndPoint(currentPoint);
@@ -138,7 +137,7 @@ public class PhotoComponent extends JComponent {
                             currentPoint)
             );
 
-            model.getDrawnRectangles().add(model.getCurrentRectangle());
+            model.addDrawing(model.getCurrentRectangle());
         }
 
         model.getCurrentRectangle().updateEndPoint(currentPoint);
@@ -231,20 +230,8 @@ public class PhotoComponent extends JComponent {
         return this.view.getImageHeight();
     }
 
-    public ArrayList<Stroke> getDrawnStrokes() {
-        return this.model.getDrawnStrokes();
-    }
-
-    public ArrayList<TypedText> getTypedTexts() {
-        return this.model.getTypedTexts();
-    }
-
-    public ArrayList<Ellipse> getDrawnEllipses() {
-        return this.model.getDrawnEllipses();
-    }
-
-    public ArrayList<Rectangle> getDrawnRectangles() {
-        return this.model.getDrawnRectangles();
+    public List<Drawing> getDrawings() {
+        return this.model.getDrawings();
     }
 
     public void paintComponent(Graphics g) {

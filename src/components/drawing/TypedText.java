@@ -4,7 +4,7 @@ import utils.Utils;
 
 import java.awt.*;
 
-public class TypedText implements Drawing {
+public class TypedText extends Drawing {
 
     private final Color color;
     private final int fontSize;

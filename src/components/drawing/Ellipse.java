@@ -3,7 +3,7 @@ package components.drawing;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
-public class Ellipse implements Drawing {
+public class Ellipse extends Drawing {
 
     private final Color color;
     private final int penSize;

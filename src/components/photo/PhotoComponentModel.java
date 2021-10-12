@@ -1,31 +1,25 @@
 package components.photo;
 
-import components.drawing.DrawingMode;
-import components.drawing.Ellipse;
+import components.drawing.*;
 import components.drawing.Rectangle;
 import components.drawing.Stroke;
-import components.drawing.TypedText;
 import utils.Utils;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PhotoComponentModel {
 
     private String storage;
     private boolean isFlipped = false;
 
-    private ArrayList<Stroke> drawnStrokes = new ArrayList<>();
-    private Stroke currentStroke = null;
+    private List<Drawing> drawings = new ArrayList<>();
 
-    private final ArrayList<TypedText> typedTexts = new ArrayList<>();
     private Point currentInsertPoint = null;
+    private Stroke currentStroke = null;
     private TypedText currentTypedText = null;
-
-    private final ArrayList<Ellipse> drawnEllipses = new ArrayList<>();
     private Ellipse currentEllipse = null;
-
-    private final ArrayList<Rectangle> drawnRectangles = new ArrayList<>();
     private Rectangle currentRectangle = null;
 
     private Color
@@ -61,12 +55,20 @@ public class PhotoComponentModel {
         isFlipped = !isFlipped;
     }
 
-    public ArrayList<Stroke> getDrawnStrokes() {
-        return drawnStrokes;
+    public List<Drawing> getDrawings() {
+        return drawings;
     }
 
-    public void setDrawnStrokes(ArrayList<Stroke> strokes) {
-        drawnStrokes = strokes;
+    public void addDrawing(Drawing drawing) {
+        this.drawings.add(drawing);
+    }
+
+    public void removeDrawing(Drawing drawing) {
+        this.drawings.remove(drawing);
+    }
+
+    public void removeLastDrawing() {
+        this.drawings.remove(this.drawings.size() - 1);
     }
 
     public Stroke getCurrentStroke() {
@@ -75,14 +77,6 @@ public class PhotoComponentModel {
 
     public void setCurrentStroke(Stroke stroke) {
         currentStroke = stroke;
-    }
-
-    public Point getCurrentInsertTextPoint() {
-        return currentInsertPoint;
-    }
-
-    public void setCurrentInsertTextPoint(Point point) {
-        currentInsertPoint = point;
     }
     
     public TypedText getCurrentTypedText() {
@@ -95,14 +89,6 @@ public class PhotoComponentModel {
     
     public void addCCharacterToCurrentTypedText(String letter) {
         currentTypedText.addCharacter(letter);
-    }
-
-    public ArrayList<TypedText> getTypedTexts() {
-        return typedTexts;
-    }
-
-    public void addTypedText(TypedText typedText) {
-        typedTexts.add(typedText);
     }
 
     public Color getPenColor() {
@@ -159,14 +145,6 @@ public class PhotoComponentModel {
 
     public Rectangle getCurrentRectangle() {
         return currentRectangle;
-    }
-
-    public ArrayList<Ellipse> getDrawnEllipses() {
-        return drawnEllipses;
-    }
-
-    public ArrayList<Rectangle> getDrawnRectangles() {
-        return drawnRectangles;
     }
 
     public void deleteLastTypedCharacter() {
