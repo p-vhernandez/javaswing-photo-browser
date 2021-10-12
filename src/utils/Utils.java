@@ -37,6 +37,8 @@ public class Utils {
     private static final int PHOTO_COMPONENT_MIN_WIDTH = 600;
     private static final int PHOTO_COMPONENT_MIN_HEIGHT = 550;
 
+    private static final int ALLOWED_CLICK_ERROR = 20;
+
     public static String getAppName() {
         return APP_NAME;
     }
@@ -99,6 +101,10 @@ public class Utils {
 
     public static int getPhotoComponentMinHeight() {
         return PHOTO_COMPONENT_MIN_HEIGHT;
+    }
+
+    public static int getAllowedClickError() {
+        return ALLOWED_CLICK_ERROR;
     }
 
     public static Image generateImage(Object object, String directory) {

@@ -1,5 +1,7 @@
 package components.drawing;
 
+import utils.Utils;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -76,8 +78,8 @@ public class Stroke extends Drawing {
     public boolean contains(Point point) {
         // Adding an error, so it can be easier to
         // exactly select the stroke
-        for (int xError = 0; xError < 30; xError++) {
-            for (int yError = 0; yError < 30; yError++) {
+        for (int xError = 0; xError < Utils.getAllowedClickError(); xError++) {
+            for (int yError = 0; yError < Utils.getAllowedClickError(); yError++) {
                 for (Point strokePoint : drawnPoints) {
                     if (strokePoint.equals(new Point(point.x + xError, point.y + yError))) {
                         return true;

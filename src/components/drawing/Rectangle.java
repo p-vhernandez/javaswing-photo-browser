@@ -1,5 +1,7 @@
 package components.drawing;
 
+import utils.Utils;
+
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
@@ -48,8 +50,8 @@ public class Rectangle extends Drawing {
         int height = endPoint.y - startPoint.y;
 
 
-        for (int xError = 0; xError < 30; xError++) {
-            for (int yError = 0; yError < 30; yError++) {
+        for (int xError = 0; xError < Utils.getAllowedClickError(); xError++) {
+            for (int yError = 0; yError < Utils.getAllowedClickError(); yError++) {
                 if (point.x + xError >= this.startPoint.x && point.x + xError < this.startPoint.x + width
                         && point.y >= this.startPoint.y && point.y < this.startPoint.y + height) {
                     return true;

@@ -109,8 +109,8 @@ public class TypedText extends Drawing {
         int width = imageWidth - insertPoint.x;
         int height = imageHeight - insertPoint.y;
 
-        for (int xError = 0; xError < 30; xError++) {
-            for (int yError = 0; yError < 30; yError++) {
+        for (int xError = 0; xError < Utils.getAllowedClickError(); xError++) {
+            for (int yError = 0; yError < Utils.getAllowedClickError(); yError++) {
                 if (point.x + xError >= this.insertPoint.x && point.x + xError < this.insertPoint.x + width
                         && point.y >= this.insertPoint.y && point.y < this.insertPoint.y + height) {
                     return true;
