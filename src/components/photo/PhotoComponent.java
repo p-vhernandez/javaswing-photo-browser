@@ -9,7 +9,6 @@ import utils.Utils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PhotoComponent extends JComponent {
@@ -27,7 +26,6 @@ public class PhotoComponent extends JComponent {
     }
 
     private void setUpComponent() {
-        //addMouseListener();
         stateMachine = new StateMachine(this);
         stateMachine.attachTo(this);
 
@@ -43,16 +41,11 @@ public class PhotoComponent extends JComponent {
         visualizationFrame.setVisible(true);
     }
 
-    public boolean annotationsAllowed() {
-        return this.model.annotationsAllowed();
-    }
-
     public void startTyping(Point point) {
         setFocusable(true);
         requestFocusInWindow();
         model.setCurrentTypedText(
                 new TypedText(
-                        model.getFontColor(),
                         model.getFontSize(),
                         point,
                         view.getImageWidth(),
@@ -86,8 +79,8 @@ public class PhotoComponent extends JComponent {
         repaint();
     }
 
-    public void addCharacter(char chararcter) {
-        this.model.addCCharacterToCurrentTypedText(String.valueOf(chararcter));
+    public void addCharacter(char character) {
+        this.model.addCCharacterToCurrentTypedText(String.valueOf(character));
         repaint();
     }
 
@@ -95,7 +88,6 @@ public class PhotoComponent extends JComponent {
         if (model.getCurrentStroke() == null) {
             model.setCurrentStroke(
                     new Stroke(
-                            model.getPenColor(),
                             model.getPenSize(),
                             view.getImageWidth(),
                             view.getImageHeight(),
@@ -114,7 +106,6 @@ public class PhotoComponent extends JComponent {
         if (model.getCurrentEllipse() == null) {
             model.setCurrentEllipse(
                     new Ellipse(
-                            model.getPenColor(),
                             model.getPenSize(),
                             currentPoint,
                             currentPoint)
@@ -131,7 +122,6 @@ public class PhotoComponent extends JComponent {
         if (model.getCurrentRectangle() == null) {
             model.setCurrentRectangle(
                     new Rectangle(
-                            model.getPenColor(),
                             model.getPenSize(),
                             currentPoint,
                             currentPoint)
@@ -141,6 +131,46 @@ public class PhotoComponent extends JComponent {
         }
 
         model.getCurrentRectangle().updateEndPoint(currentPoint);
+        repaint();
+    }
+
+    public Drawing getDrawingAt(Point point) {
+        for (int i = model.getDrawings().size() - 1; i >= 0; i--) {
+            Drawing drawing = model.getDrawings().get(i);
+
+            if (drawing.contains(point)) {
+                return drawing;
+            }
+        }
+
+        return null;
+    }
+
+    public void selectDrawing(Drawing drawing) {
+        if (!model.getDrawings().contains(drawing)) {
+            return;
+        }
+
+        this.model.selectDrawing(drawing);
+        drawing.setSelected(true);
+        repaint();
+    }
+
+    public void deselectAllDrawings() {
+        List<Drawing> shapesToDeselect = model.getSelectedDrawings().stream().toList();
+        for (Drawing drawing : shapesToDeselect) {
+            deselect(drawing);
+        }
+    }
+
+    // No effect if the shape has not been added to the canvas first.
+    public void deselect(Drawing drawing) {
+        if (!model.getDrawings().contains(drawing)) {
+            return;
+        }
+
+        model.removeSelectedDrawing(drawing);
+        drawing.setSelected(false);
         repaint();
     }
 
@@ -160,12 +190,22 @@ public class PhotoComponent extends JComponent {
         repaint();
     }
 
-    public void setPenColor(Color penColor) {
-        this.model.setPenColor(penColor);
+    public boolean hasDrawingsSelected() {
+        return this.model.getSelectedDrawings().size() > 0;
     }
 
-    public Color getPenColor() {
-        return this.model.getPenColor();
+    public void changeSelectedDrawingsColor(Color newColor) {
+        model.changeSelectedDrawingsColor(newColor);
+        repaint();
+    }
+
+    public void changeSelectedTypedTextColor(Color newColor) {
+        model.changeSelectedTypedTextColor(newColor);
+        repaint();
+    }
+
+    public void setPenColor(Color penColor) {
+        this.model.setPenColor(penColor);
     }
 
     public void setPenSize(int penSize) {
@@ -192,10 +232,6 @@ public class PhotoComponent extends JComponent {
         this.model.setDrawingMode(drawingMode);
     }
 
-    public DrawingMode getDrawingMode() {
-        return this.model.getDrawingMode();
-    }
-
     public void setFontID(int id) {
         this.model.setFontID(id);
         setFont(id);
@@ -220,14 +256,6 @@ public class PhotoComponent extends JComponent {
 
     public String getImage() {
         return this.model.getStorage();
-    }
-
-    public int getImageWidth() {
-        return this.view.getImageWidth();
-    }
-
-    public int getImageHeight() {
-        return this.view.getImageHeight();
     }
 
     public List<Drawing> getDrawings() {

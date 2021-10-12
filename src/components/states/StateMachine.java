@@ -1,5 +1,6 @@
 package components.states;
 
+import components.drawing.Drawing;
 import components.photo.PhotoComponent;
 import fr.lri.swingstates.sm.JStateMachine;
 import fr.lri.swingstates.sm.State;
@@ -44,15 +45,29 @@ public class StateMachine extends JStateMachine {
             }
         };
 
-        final Transition singleClick = new Click(BUTTON1, "=> typing") {
+        final Transition drawingClick = new Click(BUTTON1, "=> annotating") {
             @Override
             public boolean guard() {
-                return getMouseEvent().getClickCount() == 1
-                        && controller.annotationsAllowed();
+                return controller.getDrawingAt(controller.getMousePosition()) != null;
             }
 
             @Override
             public void action() {
+                Drawing drawing = controller.getDrawingAt(controller.getMousePosition());
+                controller.deselectAllDrawings();
+                controller.selectDrawing(drawing);
+            }
+        };
+
+        final Transition singleClick = new Click(BUTTON1, "=> typing") {
+            @Override
+            public boolean guard() {
+                return getMouseEvent().getClickCount() == 1;
+            }
+
+            @Override
+            public void action() {
+                controller.deselectAllDrawings();
                 controller.startTyping(controller.getMousePosition());
             }
         };
@@ -92,6 +107,20 @@ public class StateMachine extends JStateMachine {
             }
         };
 
+        final Transition drawingClick = new Click(BUTTON1, "=> annotating") {
+            @Override
+            public boolean guard() {
+                return controller.getDrawingAt(controller.getMousePosition()) != null;
+            }
+
+            @Override
+            public void action() {
+                Drawing drawing = controller.getDrawingAt(controller.getMousePosition());
+                controller.deselectAllDrawings();
+                controller.selectDrawing(drawing);
+            }
+        };
+
         final Transition singleClick = new Click(BUTTON1, "=> typing") {
             @Override
             public boolean guard() {
@@ -100,6 +129,7 @@ public class StateMachine extends JStateMachine {
 
             @Override
             public void action() {
+                controller.deselectAllDrawings();
                 controller.startTyping(controller.getMousePosition());
             }
         };
@@ -134,6 +164,20 @@ public class StateMachine extends JStateMachine {
             @Override
             public void action() {
                 controller.toggleAnnotations();
+            }
+        };
+
+        final Transition drawingClick = new Click(BUTTON1, "=> annotating") {
+            @Override
+            public boolean guard() {
+                return controller.getDrawingAt(controller.getMousePosition()) != null;
+            }
+
+            @Override
+            public void action() {
+                Drawing drawing = controller.getDrawingAt(controller.getMousePosition());
+                controller.deselectAllDrawings();
+                controller.selectDrawing(drawing);
             }
         };
 

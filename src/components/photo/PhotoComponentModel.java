@@ -7,14 +7,18 @@ import utils.Utils;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 public class PhotoComponentModel {
 
     private String storage;
     private boolean isFlipped = false;
 
-    private List<Drawing> drawings = new ArrayList<>();
+    private final List<Drawing> drawings = new ArrayList<>();
+    private Set<Drawing> selectedDrawings = new LinkedHashSet<>();
+    private Set<Drawing> draggedDrawings = new LinkedHashSet<>();
 
     private Point currentInsertPoint = null;
     private Stroke currentStroke = null;
@@ -67,8 +71,40 @@ public class PhotoComponentModel {
         this.drawings.remove(drawing);
     }
 
-    public void removeLastDrawing() {
-        this.drawings.remove(this.drawings.size() - 1);
+    public Set<Drawing> getSelectedDrawings() {
+        return this.selectedDrawings;
+    }
+
+    public void removeSelectedDrawing(Drawing drawing) {
+        this.selectedDrawings.remove(drawing);
+    }
+
+    public void changeSelectedDrawingsColor(Color newColor) {
+        for (Drawing drawing : selectedDrawings) {
+            if (drawing.getMode() != DrawingMode.TYPED_TEXT) {
+                drawing.setColor(newColor);
+            }
+        }
+    }
+
+    public void changeSelectedTypedTextColor(Color newColor) {
+        for (Drawing drawing : selectedDrawings) {
+            if (drawing.getMode() == DrawingMode.TYPED_TEXT) {
+                drawing.setColor(newColor);
+            }
+        }
+    }
+
+    public void selectDrawing(Drawing drawing) {
+        this.selectedDrawings.add(drawing);
+    }
+
+    public Set<Drawing> getDraggedDrawings() {
+        return this.draggedDrawings;
+    }
+
+    public void dragDrawing(Drawing drawing) {
+        this.draggedDrawings.add(drawing);
     }
 
     public Stroke getCurrentStroke() {

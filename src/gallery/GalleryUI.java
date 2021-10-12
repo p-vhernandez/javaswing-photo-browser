@@ -223,21 +223,29 @@ public class GalleryUI {
     private void setUpPenOptionsListeners() {
         iPenColorChooser.addActionListener(listener -> {
             Color newColor = JColorChooser.showDialog(null, "Choose a pen color", Color.RED);
-            photoComponent.setPenColor(newColor);
+            if (photoComponent.hasDrawingsSelected()) {
+                photoComponent.changeSelectedDrawingsColor(newColor);
+            } else {
+                photoComponent.setPenColor(newColor);
+            }
         });
 
         iPenSizeChooser.addActionListener(e -> {
-            String result = (String) JOptionPane.showInputDialog(
-                    null,
-                    "Type the desired size",
-                    "Choose a pen size",
-                    JOptionPane.PLAIN_MESSAGE,
-                    null,
-                    null,
-                    photoComponent.getPenSize());
+            if (photoComponent.hasDrawingsSelected()) {
+                showNotAvailable();
+            } else {
+                String result = (String) JOptionPane.showInputDialog(
+                        null,
+                        "Type the desired size",
+                        "Choose a pen size",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        null,
+                        photoComponent.getPenSize());
 
-            if (result != null && result.length() > 0) {
-                photoComponent.setPenSize(Integer.parseInt(result));
+                if (result != null && result.length() > 0) {
+                    photoComponent.setPenSize(Integer.parseInt(result));
+                }
             }
         });
     }
@@ -245,36 +253,57 @@ public class GalleryUI {
     private void setUpFontOptionsListeners() {
         iFontColorChooser.addActionListener(listener -> {
             Color newColor = JColorChooser.showDialog(null, "Choose a pen color", Color.RED);
-            photoComponent.setFontColor(newColor);
+            if (photoComponent.hasDrawingsSelected()) {
+                photoComponent.changeSelectedTypedTextColor(newColor);
+            } else {
+                photoComponent.setFontColor(newColor);
+            }
         });
 
         iFontSizeChooser.addActionListener(listener -> {
-            String result = (String) JOptionPane.showInputDialog(
-                    null,
-                    "Type the desired size",
-                    "Choose a font size",
-                    JOptionPane.PLAIN_MESSAGE,
-                    null,
-                    null,
-                    photoComponent.getFontSize());
+            if (photoComponent.hasDrawingsSelected()) {
+                showNotAvailable();
+            } else {
+                String result = (String) JOptionPane.showInputDialog(
+                        null,
+                        "Type the desired size",
+                        "Choose a font size",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        null,
+                        photoComponent.getFontSize());
 
-            if (result != null && result.length() > 0) {
-                photoComponent.setFontSize(Integer.parseInt(result));
+                if (result != null && result.length() > 0) {
+                    photoComponent.setFontSize(Integer.parseInt(result));
+                }
             }
         });
 
         iFontStyleChooser.addActionListener(listener -> {
-            int result = JOptionPane.showOptionDialog(null,
-                    "Font family used: Urbanist",
-                    "Choose a font style",
-                    JOptionPane.DEFAULT_OPTION,
-                    JOptionPane.INFORMATION_MESSAGE,
-                    null,
-                    Utils.getFontOptions(),
-                    Utils.getFontOptions()[photoComponent.getFontID()]);
+            if (photoComponent.hasDrawingsSelected()) {
+                showNotAvailable();
+            } else {
+                int result = JOptionPane.showOptionDialog(null,
+                        "Font family used: Urbanist",
+                        "Choose a font style",
+                        JOptionPane.DEFAULT_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE,
+                        null,
+                        Utils.getFontOptions(),
+                        Utils.getFontOptions()[photoComponent.getFontID()]);
 
-            photoComponent.setFontID(result);
+                photoComponent.setFontID(result);
+            }
         });
+    }
+
+    private void showNotAvailable() {
+        JOptionPane.showMessageDialog(
+                gallery,
+                "Option not supported while selecting drawings.",
+                "Warning!",
+                JOptionPane.INFORMATION_MESSAGE
+        );
     }
 
     private void chooseFileFromDevice() {

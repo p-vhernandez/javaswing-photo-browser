@@ -3,5 +3,6 @@ package components.drawing;
 public enum DrawingMode {
     FREE,
     ELLIPSE,
-    RECTANGLE
+    RECTANGLE,
+    TYPED_TEXT
 }

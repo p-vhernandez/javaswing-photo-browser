@@ -5,15 +5,14 @@ import java.awt.geom.Rectangle2D;
 
 public class Rectangle extends Drawing {
 
-    private final Color color;
     private final int penSize;
 
     private final Point startPoint;
     private Point endPoint;
 
-    public Rectangle(Color color, int penSize,
-                     Point startPoint, Point endPoint) {
-        this.color = color;
+    public Rectangle(int penSize, Point startPoint, Point endPoint) {
+        super(DrawingMode.RECTANGLE);
+
         this.penSize = penSize;
         this.startPoint = startPoint;
         this.endPoint = endPoint;
@@ -25,8 +24,13 @@ public class Rectangle extends Drawing {
 
     @Override
     public void draw(Graphics2D g) {
-        g.setColor(color);
-        g.setStroke(new BasicStroke(penSize));
+        if (isSelected()) {
+            g.setColor(Color.red);
+            g.setStroke(new BasicStroke(penSize + 1));
+        } else {
+            g.setColor(getColor());
+            g.setStroke(new BasicStroke(penSize));
+        }
 
         Rectangle2D.Double rectangle = new Rectangle2D.Double(
                 Math.min(startPoint.x, endPoint.x),
@@ -39,9 +43,62 @@ public class Rectangle extends Drawing {
     }
 
     @Override
+    public boolean contains(Point point) {
+        int width = endPoint.x - startPoint.x;
+        int height = endPoint.y - startPoint.y;
+
+
+        for (int xError = 0; xError < 30; xError++) {
+            for (int yError = 0; yError < 30; yError++) {
+                if (point.x + xError >= this.startPoint.x && point.x + xError < this.startPoint.x + width
+                        && point.y >= this.startPoint.y && point.y < this.startPoint.y + height) {
+                    return true;
+                }
+
+                if (point.x >= this.startPoint.x && point.x < this.startPoint.x + width
+                        && point.y + yError >= this.startPoint.y && point.y + yError < this.startPoint.y + height) {
+                    return true;
+                }
+
+                if (point.x + xError >= this.startPoint.x && point.x + xError < this.startPoint.x + width
+                        && point.y + yError >= this.startPoint.y && point.y + yError < this.startPoint.y + height) {
+                    return true;
+                }
+
+                if (point.x + xError >= this.startPoint.x && point.x + xError < this.startPoint.x + width
+                        && point.y - yError >= this.startPoint.y && point.y - yError < this.startPoint.y + height) {
+                    return true;
+                }
+
+                if (point.x - xError >= this.startPoint.x && point.x - xError < this.startPoint.x - width
+                        && point.y - yError >= this.startPoint.y && point.y - yError < this.startPoint.y - height) {
+                    return true;
+                }
+
+                if (point.x - xError >= this.startPoint.x && point.x - xError < this.startPoint.x + width
+                        && point.y + yError >= this.startPoint.y && point.y + yError < this.startPoint.y + height) {
+                    return true;
+                }
+
+                if (point.x - xError >= this.startPoint.x && point.x - xError < this.startPoint.x - width
+                        && point.y >= this.startPoint.y && point.y < this.startPoint.y - height) {
+                    return true;
+                }
+
+                if (point.x >= this.startPoint.x && point.x < this.startPoint.x - width
+                        && point.y - yError >= this.startPoint.y && point.y - yError < this.startPoint.y - height) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    @Override
     public String toString() {
         return "Rectangle{" +
-                "color=" + color +
+                "color=" + getColor() +
                 ", startPoint=" + startPoint +
                 ", endPoint=" + endPoint +
                 '}';

@@ -5,14 +5,14 @@ import java.awt.geom.Ellipse2D;
 
 public class Ellipse extends Drawing {
 
-    private final Color color;
     private final int penSize;
 
     private final Point startPoint;
     private Point endPoint;
 
-    public Ellipse(Color color, int penSize, Point startPoint, Point endPoint) {
-        this.color = color;
+    public Ellipse(int penSize, Point startPoint, Point endPoint) {
+        super(DrawingMode.ELLIPSE);
+
         this.penSize = penSize;
         this.startPoint = startPoint;
         this.endPoint = endPoint;
@@ -22,10 +22,9 @@ public class Ellipse extends Drawing {
         this.endPoint = endPoint;
     }
 
-
     @Override
     public void draw(Graphics2D g) {
-        g.setColor(color);
+        g.setColor(getColor());
         g.setStroke(new BasicStroke(penSize));
 
         Ellipse2D.Double ellipse = new Ellipse2D.Double(
@@ -39,9 +38,15 @@ public class Ellipse extends Drawing {
     }
 
     @Override
+    public boolean contains(Point point) {
+        // TODO
+        return false;
+    }
+
+    @Override
     public String toString() {
         return "Ellipse{" +
-                "color=" + color +
+                "color=" + getColor() +
                 ", startPoint=" + startPoint +
                 ", endPoint=" + endPoint +
                 '}';

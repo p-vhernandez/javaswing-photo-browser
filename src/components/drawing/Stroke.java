@@ -6,16 +6,16 @@ import java.util.ArrayList;
 public class Stroke extends Drawing {
 
     private final ArrayList<Point> drawnPoints;
-    private final Color color;
     private final int penSize;
 
     private final int imageWidth, imageHeight;
     private final int startingPointX, startingPointY;
 
-    public Stroke(Color color, int penSize, int imageWidth, int imageHeight,
+    public Stroke(int penSize, int imageWidth, int imageHeight,
                   int startingPointX, int startingPointY) {
+        super(DrawingMode.FREE);
+
         this.drawnPoints = new ArrayList<>();
-        this.color = color;
         this.penSize = penSize;
         this.imageWidth = imageWidth;
         this.imageHeight = imageHeight;
@@ -25,10 +25,6 @@ public class Stroke extends Drawing {
 
     public void addDrawnPoint(Point point) {
         this.drawnPoints.add(point);
-    }
-
-    public ArrayList<Point> getDrawnPoints() {
-        return drawnPoints;
     }
 
     private boolean lineInsideImage(Point currentPoint, Point nextPoint) {
@@ -51,8 +47,15 @@ public class Stroke extends Drawing {
 
     @Override
     public void draw(Graphics2D g) {
-        g.setColor(color);
-        g.setStroke(new BasicStroke(penSize));
+        // Distinguish if stroke is selected
+        if (isSelected()) {
+            g.setColor(Color.red);
+            g.setStroke(new BasicStroke(penSize + 1));
+        } else {
+            System.out.println(getColor());
+            g.setColor(getColor());
+            g.setStroke(new BasicStroke(penSize));
+        }
 
         if (drawnPoints.size() >= 2) {
             for (int i = 0; i < drawnPoints.size() - 1; i ++) {
@@ -67,5 +70,50 @@ public class Stroke extends Drawing {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean contains(Point point) {
+        // Adding an error, so it can be easier to
+        // exactly select the stroke
+        for (int xError = 0; xError < 30; xError++) {
+            for (int yError = 0; yError < 30; yError++) {
+                for (Point strokePoint : drawnPoints) {
+                    if (strokePoint.equals(new Point(point.x + xError, point.y + yError))) {
+                        return true;
+                    }
+
+                    if (strokePoint.equals(new Point(point.x + xError, point.y - yError))) {
+                        return true;
+                    }
+
+                    if (strokePoint.equals(new Point(point.x - xError, point.y - yError))) {
+                        return true;
+                    }
+
+                    if (strokePoint.equals(new Point(point.x - xError, point.y + yError))) {
+                        return true;
+                    }
+
+                    if (strokePoint.equals(new Point(point.x - xError, point.y))) {
+                        return true;
+                    }
+
+                    if (strokePoint.equals(new Point(point.x + xError, point.y))) {
+                        return true;
+                    }
+
+                    if (strokePoint.equals(new Point(point.x, point.y - yError))) {
+                        return true;
+                    }
+
+                    if (strokePoint.equals(new Point(point.x, point.y + yError))) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 }

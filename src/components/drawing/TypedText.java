@@ -6,7 +6,6 @@ import java.awt.*;
 
 public class TypedText extends Drawing {
 
-    private final Color color;
     private final int fontSize;
     private Point insertPoint;
     private String typedText = "";
@@ -15,12 +14,14 @@ public class TypedText extends Drawing {
 
     private final int imageWidth, imageHeight;
     private final int startingPointX, startingPointY;
+    private int fullLength = 0;
 
     private String[] substrings;
 
-    public TypedText(Color color, int fontSize, Point insertPoint, int imageWidth,
+    public TypedText(int fontSize, Point insertPoint, int imageWidth,
                      int imageHeight, int startingPointX, int startingPointY, Font font) {
-        this.color = color;
+        super(DrawingMode.TYPED_TEXT);
+
         this.fontSize = fontSize;
         this.insertPoint = insertPoint;
         this.imageWidth = imageWidth;
@@ -28,10 +29,6 @@ public class TypedText extends Drawing {
         this.startingPointX = startingPointX;
         this.startingPointY = startingPointY;
         this.font = font;
-    }
-
-    public String getTypedText() {
-        return typedText;
     }
 
     public void addCharacter(String character) {
@@ -42,22 +39,9 @@ public class TypedText extends Drawing {
         this.typedText = this.typedText.substring(0, typedText.length() - 1);
     }
 
-    public Point getInsertPoint() {
-        return insertPoint;
-    }
-
-    public void setInsertPoint(Point insertPoint) {
-        this.insertPoint = insertPoint;
-    }
-
     private boolean textInsideImageWidth(Graphics2D g) {
         return g.getFontMetrics().stringWidth(substrings[substrings.length - 1]) <=
                 (imageWidth - insertPoint.x);
-    }
-
-    private boolean textOutsideImageWidth(Graphics2D g) {
-        return insertPoint.x + g.getFontMetrics().stringWidth(substrings[substrings.length - 1]) >=
-                imageWidth + Utils.getPhotoComponentBorder();
     }
 
     private boolean textInsideImageHeight(int newLineY) {
@@ -91,9 +75,14 @@ public class TypedText extends Drawing {
 
     @Override
     public void draw(Graphics2D g) {
-        g.setColor(color);
         g.setFont(font.deriveFont(Float.valueOf(fontSize)));
+        if (isSelected()) {
+            g.setColor(Color.red);
+        } else {
+            g.setColor(getColor());
+        }
 
+        fullLength = g.getFontMetrics().stringWidth(typedText);
         substrings = typedText.split("\n");
         int[] results = searchForLastBlankSpaceAndNewLinePositions();
         int blankSpace = results[0];
@@ -113,5 +102,57 @@ public class TypedText extends Drawing {
 
             newLineY += g.getFontMetrics().getHeight();
         }
+    }
+
+    @Override
+    public boolean contains(Point point) {
+        int width = imageWidth - insertPoint.x;
+        int height = imageHeight - insertPoint.y;
+
+        for (int xError = 0; xError < 30; xError++) {
+            for (int yError = 0; yError < 30; yError++) {
+                if (point.x + xError >= this.insertPoint.x && point.x + xError < this.insertPoint.x + width
+                        && point.y >= this.insertPoint.y && point.y < this.insertPoint.y + height) {
+                    return true;
+                }
+
+                if (point.x >= this.insertPoint.x && point.x < this.insertPoint.x + width
+                        && point.y + yError >= this.insertPoint.y && point.y + yError < this.insertPoint.y + height) {
+                    return true;
+                }
+
+                if (point.x + xError >= this.insertPoint.x && point.x + xError < this.insertPoint.x + width
+                        && point.y + yError >= this.insertPoint.y && point.y + yError < this.insertPoint.y + height) {
+                    return true;
+                }
+
+                if (point.x + xError >= this.insertPoint.x && point.x + xError < this.insertPoint.x + width
+                        && point.y - yError >= this.insertPoint.y && point.y - yError < this.insertPoint.y + height) {
+                    return true;
+                }
+
+                if (point.x - xError >= this.insertPoint.x && point.x - xError < this.insertPoint.x - width
+                        && point.y - yError >= this.insertPoint.y && point.y - yError < this.insertPoint.y - height) {
+                    return true;
+                }
+
+                if (point.x - xError >= this.insertPoint.x && point.x - xError < this.insertPoint.x + width
+                        && point.y + yError >= this.insertPoint.y && point.y + yError < this.insertPoint.y + height) {
+                    return true;
+                }
+
+                if (point.x - xError >= this.insertPoint.x && point.x - xError < this.insertPoint.x - width
+                        && point.y >= this.insertPoint.y && point.y < this.insertPoint.y - height) {
+                    return true;
+                }
+
+                if (point.x >= this.insertPoint.x && point.x < this.insertPoint.x - width
+                        && point.y - yError >= this.insertPoint.y && point.y - yError < this.insertPoint.y - height) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }
