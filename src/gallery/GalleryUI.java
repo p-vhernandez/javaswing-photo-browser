@@ -72,7 +72,7 @@ public class GalleryUI {
 
         menuBar.add(fileMenu);
         menuBar.add(viewMenu);
-        menuBar.add(drawingModeMenu);
+        //menuBar.add(drawingModeMenu);
         menuBar.add(penMenu);
         menuBar.add(textMenu);
 
@@ -331,12 +331,14 @@ public class GalleryUI {
     }
 
     private void deletePicture() {
-        mainPanel.remove(scrollPane);
-        mainPanel.revalidate();
-        mainPanel.repaint();
+        if (scrollPane != null) {
+            mainPanel.remove(scrollPane);
+            mainPanel.revalidate();
+            mainPanel.repaint();
 
-        photoComponent = null;
-        scrollPane = null;
+            photoComponent = null;
+            scrollPane = null;
+        }
 
         showOptionalMenuItems(false);
     }

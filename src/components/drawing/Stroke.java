@@ -54,7 +54,6 @@ public class Stroke extends Drawing {
             g.setColor(Color.red);
             g.setStroke(new BasicStroke(penSize + 1));
         } else {
-            System.out.println(getColor());
             g.setColor(getColor());
             g.setStroke(new BasicStroke(penSize));
         }
@@ -117,5 +116,13 @@ public class Stroke extends Drawing {
         }
 
         return false;
+    }
+
+    @Override
+    public void translateBy(double xDistance, double yDistance) {
+        for(Point point : drawnPoints) {
+            point.x += xDistance;
+            point.y += yDistance;
+        }
     }
 }

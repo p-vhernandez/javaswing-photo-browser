@@ -41,9 +41,19 @@ public class PhotoComponent extends JComponent {
         visualizationFrame.setVisible(true);
     }
 
-    public void startTyping(Point point) {
+    public void toggleAnnotations() {
+        model.toggleAnnotations();
         setFocusable(true);
         requestFocusInWindow();
+
+        if (!model.annotationsAllowed()) {
+            setFocusable(false);
+        }
+
+        repaint();
+    }
+
+    public void startTyping(Point point) {
         model.setCurrentTypedText(
                 new TypedText(
                         model.getFontSize(),
@@ -139,6 +149,7 @@ public class PhotoComponent extends JComponent {
             Drawing drawing = model.getDrawings().get(i);
 
             if (drawing.contains(point)) {
+                System.out.println("SHAPE TOUCHED!!!!");
                 return drawing;
             }
         }
@@ -174,14 +185,23 @@ public class PhotoComponent extends JComponent {
         repaint();
     }
 
-    public void toggleAnnotations() {
-        model.toggleAnnotations();
+    public void startDraggingShapes() {
+        this.model.addDraggedDrawings(model.getSelectedDrawings());
+    }
 
-        if (!model.annotationsAllowed()) {
-            setFocusable(false);
+    public void dragDrawings(Point currentMousePosition, Point lastMousePosition) {
+        double xDistance = currentMousePosition.getX() - lastMousePosition.getX();
+        double yDistance = currentMousePosition.getY() - lastMousePosition.getY();
+
+        for (Drawing drawing : model.getSelectedDrawings()) {
+            drawing.translateBy(xDistance, yDistance);
         }
 
         repaint();
+    }
+
+    public void stopDraggingShapes() {
+        this.model.clearDraggedDrawings();
     }
 
     public void setImage(String imageDirectory) {

@@ -13,8 +13,7 @@ public class TypedText extends Drawing {
     private final Font font;
 
     private final int imageWidth, imageHeight;
-    private final int startingPointX, startingPointY;
-    private int fullLength = 0;
+    private double startingPointX, startingPointY;
 
     private String[] substrings;
 
@@ -82,7 +81,6 @@ public class TypedText extends Drawing {
             g.setColor(getColor());
         }
 
-        fullLength = g.getFontMetrics().stringWidth(typedText);
         substrings = typedText.split("\n");
         int[] results = searchForLastBlankSpaceAndNewLinePositions();
         int blankSpace = results[0];
@@ -154,5 +152,11 @@ public class TypedText extends Drawing {
         }
 
         return false;
+    }
+
+    @Override
+    public void translateBy(double xDistance, double yDistance) {
+        insertPoint.x += xDistance;
+        insertPoint.y += yDistance;
     }
 }

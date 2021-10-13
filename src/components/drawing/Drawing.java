@@ -34,8 +34,10 @@ public abstract class Drawing {
         this.color = newColor;
     }
 
+    public abstract void draw(Graphics2D g);
+
     public abstract boolean contains(Point point);
 
-    public abstract void draw(Graphics2D g);
+    public abstract void translateBy(double xDistance, double yDistance);
 
 }

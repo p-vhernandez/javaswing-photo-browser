@@ -44,6 +44,11 @@ public class Ellipse extends Drawing {
     }
 
     @Override
+    public void translateBy(double xDistance, double yDistance) {
+
+    }
+
+    @Override
     public String toString() {
         return "Ellipse{" +
                 "color=" + getColor() +

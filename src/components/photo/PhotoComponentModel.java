@@ -79,6 +79,14 @@ public class PhotoComponentModel {
         this.selectedDrawings.remove(drawing);
     }
 
+    public void addDraggedDrawings(Set<Drawing> drawingsToDrag) {
+        this.draggedDrawings.addAll(drawingsToDrag);
+    }
+
+    public void clearDraggedDrawings() {
+        this.draggedDrawings.clear();
+    }
+
     public void changeSelectedDrawingsColor(Color newColor) {
         for (Drawing drawing : selectedDrawings) {
             if (drawing.getMode() != DrawingMode.TYPED_TEXT) {

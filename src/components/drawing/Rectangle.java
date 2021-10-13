@@ -21,7 +21,9 @@ public class Rectangle extends Drawing {
     }
 
     public void updateEndPoint(Point endPoint) {
-        this.endPoint = endPoint;
+        if (endPoint != null) {
+            this.endPoint = endPoint;
+        }
     }
 
     @Override
@@ -52,7 +54,7 @@ public class Rectangle extends Drawing {
 
         for (int xError = 0; xError < Utils.getAllowedClickError(); xError++) {
             for (int yError = 0; yError < Utils.getAllowedClickError(); yError++) {
-                if (point.x + xError >= this.startPoint.x && point.x + xError < this.startPoint.x + width
+                /*if (point.x + xError >= this.startPoint.x && point.x + xError < this.startPoint.x + width
                         && point.y >= this.startPoint.y && point.y < this.startPoint.y + height) {
                     return true;
                 }
@@ -90,11 +92,19 @@ public class Rectangle extends Drawing {
                 if (point.x >= this.startPoint.x && point.x < this.startPoint.x - width
                         && point.y - yError >= this.startPoint.y && point.y - yError < this.startPoint.y - height) {
                     return true;
-                }
+                }*/
             }
         }
 
         return false;
+    }
+
+    @Override
+    public void translateBy(double xDistance, double yDistance) {
+        startPoint.x += xDistance;
+        startPoint.y += yDistance;
+        endPoint.x += xDistance;
+        endPoint.y += yDistance;
     }
 
     @Override
