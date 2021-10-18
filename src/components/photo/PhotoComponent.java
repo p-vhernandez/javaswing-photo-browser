@@ -90,7 +90,7 @@ public class PhotoComponent extends JComponent {
     }
 
     public void addCharacter(char character) {
-        this.model.addCCharacterToCurrentTypedText(String.valueOf(character));
+        this.model.addCCharacterToCurrentTypedText(character);
         repaint();
     }
 

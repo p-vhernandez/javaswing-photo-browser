@@ -3,19 +3,22 @@ package components.drawing;
 import utils.Utils;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class TypedText extends Drawing {
 
     private final int fontSize;
-    private Point insertPoint;
-    private String typedText = "";
+    private final Point insertPoint;
+    private final StringBuffer text = new StringBuffer();
 
     private final Font font;
 
     private final int imageWidth, imageHeight;
     private double startingPointX, startingPointY;
 
-    private String[] substrings;
+    private boolean lineBreaksValid = false;
+    private ArrayList<String> lines;
+    private ArrayList<Integer> lineBreaks;
 
     public TypedText(int fontSize, Point insertPoint, int imageWidth,
                      int imageHeight, int startingPointX, int startingPointY, Font font) {
@@ -30,80 +33,90 @@ public class TypedText extends Drawing {
         this.font = font;
     }
 
-    public void addCharacter(String character) {
-        this.typedText += character;
+    public void addCharacter(char character) {
+        this.text.append(character);
+        invalidateLineBreaks();
     }
 
     public void deleteLastTypedCharacter() {
-        this.typedText = this.typedText.substring(0, typedText.length() - 1);
+        this.text.deleteCharAt(text.length() - 1);
     }
 
-    private boolean textInsideImageWidth(Graphics2D g) {
-        return g.getFontMetrics().stringWidth(substrings[substrings.length - 1]) <=
+    private boolean textInsideImageWidth(String string, int lineStart, int i, Graphics2D g) {
+        return g.getFontMetrics().stringWidth(string.substring(lineStart, i + 1)) <=
                 (imageWidth - insertPoint.x);
     }
 
-    private boolean textInsideImageHeight(int newLineY) {
-        return newLineY < startingPointY + imageHeight;
+    private void invalidateLineBreaks() {
+        this.lineBreaksValid = false;
     }
 
-    private String addNewLine(int blankSpace, int newLine) {
-        if (blankSpace != 0 && blankSpace > newLine) {
-            return typedText.substring(0, blankSpace) + "\n" + typedText.substring(blankSpace + 1);
-        } else {
-            return typedText += "\n";
+    private void wrapLines(Graphics2D g) {
+        lines = new ArrayList<>();
+        String string = text.toString();
+        lineBreaks = calculateLineBreaks(g);
+
+        int lineStart = 0;
+        for (int breakPoint : lineBreaks) {
+            lines.add(string.substring(lineStart, breakPoint));
+            lineStart = breakPoint;
+        }
+
+        if (lineStart < string.length()) {
+            lines.add(string.substring(lineStart));
         }
     }
 
-    private int[] searchForLastBlankSpaceAndNewLinePositions() {
-        int lastBlankSpace = 0;
-        int lastNewLine = 0;
+    private ArrayList<Integer> calculateLineBreaks(Graphics2D g) {
+        String string = text.toString();
+        ArrayList<Integer> breaks = new ArrayList<>();
 
-        for (int i = 0; i < typedText.length(); i++) {
-            if (typedText.charAt(i) == ' ') {
-                lastBlankSpace = i;
+        int lineStart = 0;
+        int lastSpace = 0;
+
+        for (int i = 0; i < string.length(); ++i) {
+            char character = string.charAt(i);
+
+            if (Character.isWhitespace(character)) {
+                lastSpace = i;
+                continue;
             }
 
-            if (typedText.charAt(i) == '\n') {
-                lastNewLine = i;
+            if (!textInsideImageWidth(string, lineStart, i, g)) {
+                int breakPoint = lastSpace > lineStart ? lastSpace + 1 : i;
+                breaks.add(breakPoint);
+                lineStart = breakPoint;
+                lastSpace = breakPoint;
             }
         }
 
-        return new int[]{lastBlankSpace, lastNewLine};
+        return lineBreaks = breaks;
     }
 
     @Override
     public void draw(Graphics2D g) {
+        Point lineStart = new Point(insertPoint);
         g.setFont(font.deriveFont(Float.valueOf(fontSize)));
+
         if (isSelected()) {
             g.setColor(Color.red);
         } else {
             g.setColor(getColor());
         }
 
-        substrings = typedText.split("\n");
-        int[] results = searchForLastBlankSpaceAndNewLinePositions();
-        int blankSpace = results[0];
-        int newLine = results[1];
-
-        if (!textInsideImageWidth(g)) {
-            typedText = addNewLine(blankSpace, newLine);
+        if (!lineBreaksValid) {
+            wrapLines(g);
         }
 
-        int newLineY = insertPoint.y;
-        for (String substring : substrings) {
-            if (textInsideImageHeight(newLineY)) {
-                g.drawString(substring, insertPoint.x, newLineY);
-            } else {
-                Toolkit.getDefaultToolkit().beep();
-            }
-
-            newLineY += g.getFontMetrics().getHeight();
+        for (String line : lines) {
+            g.drawString(line, lineStart.x, lineStart.y);
+            lineStart.y += g.getFontMetrics().getHeight();
         }
     }
 
     @Override
     public boolean contains(Point point) {
+        // FIXME
         int width = imageWidth - insertPoint.x;
         int height = imageHeight - insertPoint.y;
 

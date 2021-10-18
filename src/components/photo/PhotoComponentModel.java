@@ -131,8 +131,8 @@ public class PhotoComponentModel {
         currentTypedText = typedText;
     }
     
-    public void addCCharacterToCurrentTypedText(String letter) {
-        currentTypedText.addCharacter(letter);
+    public void addCCharacterToCurrentTypedText(char character) {
+        currentTypedText.addCharacter(character);
     }
 
     public Color getPenColor() {
