@@ -79,6 +79,10 @@ public class PhotoComponentModel {
         this.selectedDrawings.remove(drawing);
     }
 
+    public void removeSelectedDrawings() {
+        this.selectedDrawings = new LinkedHashSet<>();
+    }
+
     public void addDraggedDrawings(Set<Drawing> drawingsToDrag) {
         this.draggedDrawings.addAll(drawingsToDrag);
     }
@@ -192,7 +196,9 @@ public class PhotoComponentModel {
     }
 
     public void deleteLastTypedCharacter() {
-        this.currentTypedText.deleteLastTypedCharacter();
+        if (this.currentTypedText != null) {
+            this.currentTypedText.deleteLastTypedCharacter();
+        }
     }
 
     public Font getFont() {

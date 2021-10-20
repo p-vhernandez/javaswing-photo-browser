@@ -85,6 +85,7 @@ public class StateMachine extends JStateMachine {
             @Override
             public void action() {
                 controller.draw(controller.getMousePosition());
+                //controller.resetCurrentTypedText();
             }
         };
 
@@ -120,6 +121,18 @@ public class StateMachine extends JStateMachine {
             @Override
             public void action() {
                 controller.addCharacter(getChar());
+            }
+        };
+
+        final Transition deleteDrawing = new KeyPress(KeyEvent.VK_ESCAPE, "=> annotating") {
+            @Override
+            public boolean guard() {
+                return controller.hasDrawingsSelected();
+            }
+
+            @Override
+            public void action() {
+                controller.deleteSelectedDrawings();
             }
         };
     };

@@ -20,6 +20,8 @@ public class TypedText extends Drawing {
     private ArrayList<String> lines;
     private ArrayList<Integer> lineBreaks;
 
+    private int lineHeight, numberOfLines = 0;
+
     public TypedText(int fontSize, Point insertPoint, int imageWidth,
                      int imageHeight, int startingPointX, int startingPointY, Font font) {
         super(DrawingMode.TYPED_TEXT);
@@ -52,6 +54,7 @@ public class TypedText extends Drawing {
     }
 
     private void wrapLines(Graphics2D g) {
+        int linesAux = 0;
         lines = new ArrayList<>();
         String string = text.toString();
         lineBreaks = calculateLineBreaks(g);
@@ -59,12 +62,16 @@ public class TypedText extends Drawing {
         int lineStart = 0;
         for (int breakPoint : lineBreaks) {
             lines.add(string.substring(lineStart, breakPoint));
+            linesAux++;
             lineStart = breakPoint;
         }
 
         if (lineStart < string.length()) {
             lines.add(string.substring(lineStart));
+            linesAux++;
         }
+
+        numberOfLines = linesAux;
     }
 
     private ArrayList<Integer> calculateLineBreaks(Graphics2D g) {
@@ -95,6 +102,7 @@ public class TypedText extends Drawing {
 
     @Override
     public void draw(Graphics2D g) {
+        lineHeight = g.getFontMetrics().getHeight();
         Point lineStart = new Point(insertPoint);
         g.setFont(font.deriveFont(Float.valueOf(fontSize)));
 
@@ -118,7 +126,7 @@ public class TypedText extends Drawing {
     public boolean contains(Point point) {
         // FIXME
         int width = imageWidth - insertPoint.x;
-        int height = imageHeight - insertPoint.y;
+        int height = numberOfLines * lineHeight;
 
         for (int xError = 0; xError < Utils.getAllowedClickError(); xError++) {
             for (int yError = 0; yError < Utils.getAllowedClickError(); yError++) {
@@ -169,7 +177,10 @@ public class TypedText extends Drawing {
 
     @Override
     public void translateBy(double xDistance, double yDistance) {
-        insertPoint.x += xDistance;
-        insertPoint.y += yDistance;
+        if (insertPoint.x + xDistance < imageWidth
+                || insertPoint.x + xDistance > 0) {
+            insertPoint.x += xDistance;
+            insertPoint.y += yDistance;
+        }
     }
 }

@@ -9,6 +9,7 @@ import utils.Utils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PhotoComponent extends JComponent {
@@ -66,6 +67,10 @@ public class PhotoComponent extends JComponent {
         );
 
         model.addDrawing(model.getCurrentTypedText());
+    }
+
+    public void resetCurrentTypedText() {
+        this.model.setCurrentTypedText(null);
     }
 
     public void draw(Point point) {
@@ -212,6 +217,17 @@ public class PhotoComponent extends JComponent {
 
     public boolean hasDrawingsSelected() {
         return this.model.getSelectedDrawings().size() > 0;
+    }
+
+    public void deleteSelectedDrawings() {
+        ArrayList<Drawing> toDelete = new ArrayList<>(this.model.getSelectedDrawings());
+        this.model.removeSelectedDrawings();
+
+        for (Drawing drawing : toDelete) {
+            this.model.getDrawings().remove(drawing);
+        }
+
+        repaint();
     }
 
     public void changeSelectedDrawingsColor(Color newColor) {
