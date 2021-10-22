@@ -54,7 +54,7 @@ public class TypedText extends Drawing {
     }
 
     private void wrapLines(Graphics2D g) {
-        int linesAux = 0;
+        numberOfLines = 0;
         lines = new ArrayList<>();
         String string = text.toString();
         lineBreaks = calculateLineBreaks(g);
@@ -62,16 +62,16 @@ public class TypedText extends Drawing {
         int lineStart = 0;
         for (int breakPoint : lineBreaks) {
             lines.add(string.substring(lineStart, breakPoint));
-            linesAux++;
+            numberOfLines++;
             lineStart = breakPoint;
         }
 
         if (lineStart < string.length()) {
             lines.add(string.substring(lineStart));
-            linesAux++;
+            numberOfLines++;
         }
 
-        numberOfLines = linesAux;
+        //numberOfLines = linesAux;
     }
 
     private ArrayList<Integer> calculateLineBreaks(Graphics2D g) {

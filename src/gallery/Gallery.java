@@ -29,6 +29,10 @@ public class Gallery extends JFrame{
         this.view.initializeUI();
     }
 
+    public void showOptionalMenuItems(boolean show) {
+        view.showOptionalMenuItems(show);
+    }
+
     public void closeApp() {
         dispose();
     }

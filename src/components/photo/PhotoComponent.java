@@ -5,6 +5,7 @@ import components.drawing.Rectangle;
 import components.drawing.Stroke;
 import fr.lri.swingstates.debug.StateMachineVisualization;
 import components.states.StateMachine;
+import gallery.Gallery;
 import utils.Utils;
 
 import javax.swing.*;
@@ -14,12 +15,16 @@ import java.util.List;
 
 public class PhotoComponent extends JComponent {
 
+    private final Gallery container;
+
     private final PhotoComponentModel model;
     private final PhotoComponentUI view;
 
     private StateMachine stateMachine;
 
-    public PhotoComponent() {
+    public PhotoComponent(Gallery container) {
+        this.container = container;
+
         this.model = new PhotoComponentModel();
         this.view = new PhotoComponentUI(this);
 
@@ -31,6 +36,10 @@ public class PhotoComponent extends JComponent {
         stateMachine.attachTo(this);
 
         visualizeStateMachine();
+    }
+
+    public void showOptionalMenuItems(boolean show) {
+        container.showOptionalMenuItems(show);
     }
 
     public void visualizeStateMachine() {
@@ -67,10 +76,6 @@ public class PhotoComponent extends JComponent {
         );
 
         model.addDrawing(model.getCurrentTypedText());
-    }
-
-    public void resetCurrentTypedText() {
-        this.model.setCurrentTypedText(null);
     }
 
     public void draw(Point point) {
@@ -154,7 +159,6 @@ public class PhotoComponent extends JComponent {
             Drawing drawing = model.getDrawings().get(i);
 
             if (drawing.contains(point)) {
-                System.out.println("SHAPE TOUCHED!!!!");
                 return drawing;
             }
         }

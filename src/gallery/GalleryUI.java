@@ -72,7 +72,7 @@ public class GalleryUI {
 
         menuBar.add(fileMenu);
         menuBar.add(viewMenu);
-        //menuBar.add(drawingModeMenu);
+        menuBar.add(drawingModeMenu);
         menuBar.add(penMenu);
         menuBar.add(textMenu);
 
@@ -137,7 +137,7 @@ public class GalleryUI {
         group.add(iRectangle);
 
         drawingModeMenu.add(iFreeHand);
-        drawingModeMenu.add(iEllipse);
+        // drawingModeMenu.add(iEllipse);
         drawingModeMenu.add(iRectangle);
 
         setUpDrawingOptionsListeners();
@@ -201,7 +201,7 @@ public class GalleryUI {
     }
 
     private void setUpPhotoComponent(String absolutePath) {
-        photoComponent = new PhotoComponent();
+        photoComponent = new PhotoComponent(gallery);
         photoComponent.setImage(absolutePath);
         showOptionalMenuItems(true);
 
@@ -343,7 +343,7 @@ public class GalleryUI {
         showOptionalMenuItems(false);
     }
 
-    private void showOptionalMenuItems(boolean show) {
+    public void showOptionalMenuItems(boolean show) {
         drawingModeMenu.setVisible(show);
         penMenu.setVisible(show);
         textMenu.setVisible(show);

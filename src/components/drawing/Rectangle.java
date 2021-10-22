@@ -46,53 +46,111 @@ public class Rectangle extends Drawing {
         g.draw(rectangle);
     }
 
+    private boolean xPositionCoincides(Point point, int positionToCompare) {
+        for (int xError = 0; xError < Utils.getAllowedClickError(); xError++) {
+            if ((point.x + xError) == positionToCompare) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    protected boolean yPositionCoincides(Point point, int positionToCompare) {
+        for (int yError = 0; yError < Utils.getAllowedClickError(); yError++) {
+            if ((point.y + yError) == positionToCompare) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     @Override
     public boolean contains(Point point) {
+        // FIXME
         int width = endPoint.x - startPoint.x;
         int height = endPoint.y - startPoint.y;
 
+        for (int error = 0; error < Utils.getAllowedClickError(); error++) {
+            for (int xAxis = startPoint.x; xAxis < (startPoint.x + width); xAxis++) {
+                Point topCheckPoint = new Point(xAxis, startPoint.y);
 
-        for (int xError = 0; xError < Utils.getAllowedClickError(); xError++) {
-            for (int yError = 0; yError < Utils.getAllowedClickError(); yError++) {
-                /*if (point.x + xError >= this.startPoint.x && point.x + xError < this.startPoint.x + width
-                        && point.y >= this.startPoint.y && point.y < this.startPoint.y + height) {
+                if (topCheckPoint.equals(new Point(point.x + error, point.y + error))) {
                     return true;
                 }
 
-                if (point.x >= this.startPoint.x && point.x < this.startPoint.x + width
-                        && point.y + yError >= this.startPoint.y && point.y + yError < this.startPoint.y + height) {
+                if (topCheckPoint.equals(new Point(point.x + error, point.y - error))) {
                     return true;
                 }
 
-                if (point.x + xError >= this.startPoint.x && point.x + xError < this.startPoint.x + width
-                        && point.y + yError >= this.startPoint.y && point.y + yError < this.startPoint.y + height) {
+                if (topCheckPoint.equals(new Point(point.x - error, point.y + error))) {
                     return true;
                 }
 
-                if (point.x + xError >= this.startPoint.x && point.x + xError < this.startPoint.x + width
-                        && point.y - yError >= this.startPoint.y && point.y - yError < this.startPoint.y + height) {
+                if (topCheckPoint.equals(new Point(point.x - error, point.y - error))) {
+                    return true;
+                }
+            }
+
+            for (int xAxis = (endPoint.x - width); xAxis < endPoint.x; xAxis++) {
+                Point bottomCheckPoint = new Point(xAxis, endPoint.y);
+
+                if (bottomCheckPoint.equals(new Point(point.x + error, point.y + error))) {
                     return true;
                 }
 
-                if (point.x - xError >= this.startPoint.x && point.x - xError < this.startPoint.x - width
-                        && point.y - yError >= this.startPoint.y && point.y - yError < this.startPoint.y - height) {
+                if (bottomCheckPoint.equals(new Point(point.x + error, point.y - error))) {
                     return true;
                 }
 
-                if (point.x - xError >= this.startPoint.x && point.x - xError < this.startPoint.x + width
-                        && point.y + yError >= this.startPoint.y && point.y + yError < this.startPoint.y + height) {
+                if (bottomCheckPoint.equals(new Point(point.x - error, point.y + error))) {
                     return true;
                 }
 
-                if (point.x - xError >= this.startPoint.x && point.x - xError < this.startPoint.x - width
-                        && point.y >= this.startPoint.y && point.y < this.startPoint.y - height) {
+                if (bottomCheckPoint.equals(new Point(point.x - error, point.y - error))) {
+                    return true;
+                }
+            }
+
+            for (int yAxis = startPoint.y; yAxis < (startPoint.y + height); yAxis++) {
+                Point leftCheckPoint = new Point(startPoint.x, yAxis);
+
+                if (leftCheckPoint.equals(new Point(point.x + error, point.y + error))) {
                     return true;
                 }
 
-                if (point.x >= this.startPoint.x && point.x < this.startPoint.x - width
-                        && point.y - yError >= this.startPoint.y && point.y - yError < this.startPoint.y - height) {
+                if (leftCheckPoint.equals(new Point(point.x + error, point.y - error))) {
                     return true;
-                }*/
+                }
+
+                if (leftCheckPoint.equals(new Point(point.x - error, point.y + error))) {
+                    return true;
+                }
+
+                if (leftCheckPoint.equals(new Point(point.x - error, point.y - error))) {
+                    return true;
+                }
+            }
+
+            for (int yAxis = (endPoint.y - height); yAxis < endPoint.y; yAxis++) {
+                Point rightCheckPoint = new Point(endPoint.x, yAxis);
+
+                if (rightCheckPoint.equals(new Point(point.x + error, point.y + error))) {
+                    return true;
+                }
+
+                if (rightCheckPoint.equals(new Point(point.x + error, point.y - error))) {
+                    return true;
+                }
+
+                if (rightCheckPoint.equals(new Point(point.x - error, point.y + error))) {
+                    return true;
+                }
+
+                if (rightCheckPoint.equals(new Point(point.x - error, point.y - error))) {
+                    return true;
+                }
             }
         }
 

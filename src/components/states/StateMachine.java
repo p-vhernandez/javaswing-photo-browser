@@ -19,6 +19,11 @@ public class StateMachine extends JStateMachine {
     }
 
     public State viewing = new State("viewing") {
+        @Override
+        public void enter() {
+            controller.showOptionalMenuItems(false);
+        }
+
         final Transition doubleClick = new Click(BUTTON1, "=> annotating") {
             @Override
             public boolean guard() {
@@ -33,6 +38,11 @@ public class StateMachine extends JStateMachine {
     };
 
     public State annotating = new State("annotating") {
+        @Override
+        public void enter() {
+            controller.showOptionalMenuItems(true);
+        }
+
         final Transition doubleClick = new Click(BUTTON1, "=> viewing") {
             @Override
             public boolean guard() {
@@ -178,6 +188,8 @@ public class StateMachine extends JStateMachine {
 
         @Override
         public void enter() {
+            controller.showOptionalMenuItems(true);
+
             lastMousePosition = controller.getMousePosition();
             controller.startDraggingShapes();
         }
@@ -206,6 +218,8 @@ public class StateMachine extends JStateMachine {
 
         @Override
         public void enter() {
+            controller.showOptionalMenuItems(true);
+
             lastMousePosition = controller.getMousePosition();
             controller.startDraggingShapes();
         }
