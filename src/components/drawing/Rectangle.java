@@ -46,26 +46,6 @@ public class Rectangle extends Drawing {
         g.draw(rectangle);
     }
 
-    private boolean xPositionCoincides(Point point, int positionToCompare) {
-        for (int xError = 0; xError < Utils.getAllowedClickError(); xError++) {
-            if ((point.x + xError) == positionToCompare) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    protected boolean yPositionCoincides(Point point, int positionToCompare) {
-        for (int yError = 0; yError < Utils.getAllowedClickError(); yError++) {
-            if ((point.y + yError) == positionToCompare) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     @Override
     public boolean contains(Point point) {
         // FIXME

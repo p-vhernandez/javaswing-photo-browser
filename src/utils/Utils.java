@@ -37,7 +37,7 @@ public class Utils {
     private static final int PHOTO_COMPONENT_MIN_WIDTH = 600;
     private static final int PHOTO_COMPONENT_MIN_HEIGHT = 550;
 
-    private static final int ALLOWED_CLICK_ERROR = 20;
+    private static final int ALLOWED_CLICK_ERROR = 15;
 
     public static String getAppName() {
         return APP_NAME;
